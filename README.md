@@ -2,7 +2,7 @@ Kixx Templating
 ===============
 A simple and robust text template engine for JavaScript environments.
 
-Created by [Kris Walker](https://www.kriswalker.me) 2023 - 2025.
+Created by [Kris Walker](https://www.kriswalker.me) 2023 - 2026.
 
 ## Principles
 - __No dependencies:__ A template engine is a low level primitive component which systems depend on and should NOT complicate matters by having dependencies itself.
@@ -29,6 +29,6 @@ See the [docs/](./docs) folder for comprehensive docs.
 
 Copyright and License
 ---------------------
-Copyright: (c) 2023 - 2025 by Kris Walker (www.kriswalker.me)
+Copyright: (c) 2023 - 2026 by Kris Walker (www.kriswalker.me)
 
 Unless otherwise indicated, all source code is licensed under the MIT license. See LICENSE for details.
