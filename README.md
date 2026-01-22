@@ -1,6 +1,6 @@
 Kixx Templating
 ===============
-A simple and robust text template engine for JavaScript environments.
+A simple and robust markup and text templating system for JavaScript environments.
 
 Created by [Kris Walker](https://www.kriswalker.me) 2023 - 2026.
 
