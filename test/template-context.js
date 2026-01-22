@@ -48,9 +48,9 @@ export default {
         tableOfContents: [],
         img: {
             srcset: [
-                '/images/article-1/300w.jpg',
-                '/images/article-1/600w.jpg',
-                '/images/article-1/1200w.jpg',
+                { url: '/images/article-1/300w.jpg' },
+                { url: '/images/article-1/600w.jpg' },
+                { url: '/images/article-1/1200w.jpg' },
             ],
         },
     },

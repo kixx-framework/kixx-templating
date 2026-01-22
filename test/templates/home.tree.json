@@ -350,9 +350,10 @@
           "article",
           "img",
           "srcset",
-          "0"
+          "0",
+          "url"
         ],
-        "pathString": "article.img.srcset.0"
+        "pathString": "article.img.srcset.0.url"
       },
       {
         "type": "PATH",
@@ -360,9 +361,10 @@
           "article",
           "img",
           "srcset",
-          1
+          1,
+          "url"
         ],
-        "pathString": "article.img.srcset[1]"
+        "pathString": "article.img.srcset[1].url"
       },
       {
         "type": "PATH",
@@ -370,9 +372,10 @@
           "article",
           "img",
           "srcset",
-          2
+          2,
+          "url"
         ],
-        "pathString": "article.img.srcset[2]"
+        "pathString": "article.img.srcset[2][url]"
       },
       {
         "type": "PATH",
@@ -398,25 +401,25 @@
         "filename": "home.html",
         "lineNumber": 15,
         "startPosition": 0,
-        "endPosition": 33,
-        "tokenString": "            article.img.srcset.0\n",
-        "line": "            article.img.srcset.0\n"
+        "endPosition": 37,
+        "tokenString": "            article.img.srcset.0.url\n",
+        "line": "            article.img.srcset.0.url\n"
       },
       {
         "filename": "home.html",
         "lineNumber": 16,
         "startPosition": 0,
-        "endPosition": 34,
-        "tokenString": "            article.img.srcset[1]\n",
-        "line": "            article.img.srcset[1]\n"
+        "endPosition": 38,
+        "tokenString": "            article.img.srcset[1].url\n",
+        "line": "            article.img.srcset[1].url\n"
       },
       {
         "filename": "home.html",
         "lineNumber": 17,
         "startPosition": 0,
-        "endPosition": 34,
-        "tokenString": "            article.img.srcset[2]\n",
-        "line": "            article.img.srcset[2]\n"
+        "endPosition": 39,
+        "tokenString": "            article.img.srcset[2][url]\n",
+        "line": "            article.img.srcset[2][url]\n"
       },
       {
         "filename": "home.html",

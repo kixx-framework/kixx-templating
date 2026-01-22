@@ -12,9 +12,9 @@
         {{!-- This custom `image` helper accepts any number of positional arguments.
             Notice that a template tag can be spread over mutliple lines! --}}
         {{image
-            article.img.srcset.0
-            article.img.srcset[1]
-            article.img.srcset[2]
+            article.img.srcset.0.url
+            article.img.srcset[1].url
+            article.img.srcset[2][url]
             article.img.srcset[100w]
             }}
 
