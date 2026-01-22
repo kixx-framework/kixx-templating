@@ -36,11 +36,11 @@ Kixx Templating automatically escapes HTML entities in expressions for security:
 <!-- If userInput contains "<script>alert('xss')</script>" -->
 <!-- Output: <p>&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;</p> -->
 
-<!-- For trusted HTML content, use the noop helper -->
-<p>{{noop trustedHtmlContent }}</p>
+<!-- For trusted HTML content, use the unescape helper -->
+<p>{{unescape trustedHtmlContent }}</p>
 ```
 
-**⚠️ Security Warning:** Only use `noop` with content you trust. Never use it with untrusted user input.
+**⚠️ Security Warning:** Only use `unescape` with content you trust. Never use it with untrusted user input.
 
 ## Documentation Sections
 

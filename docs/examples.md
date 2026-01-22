@@ -13,7 +13,7 @@ This page contains practical examples of using Kixx Templating in real-world sce
 <p>You have {{ user.unreadMessages }} unread messages.</p>
 ```
 
-**Note:** All expressions automatically escape HTML entities for security. Use the `noop` helper if you need to render trusted HTML content.
+**Note:** All expressions automatically escape HTML entities for security. Use the `unescape` helper if you need to render trusted HTML content.
 
 ```javascript
 import { tokenize, buildSyntaxTree, createRenderFunction, helpers } from 'kixx-templating';
@@ -536,9 +536,9 @@ const formContext = {
 ### Trusted HTML Content
 
 ```html
-<!-- Safe: Using noop for trusted HTML content -->
+<!-- Safe: Using unescape for trusted HTML content -->
 <div class="admin-message">
-    {{noop adminMessage }}
+    {{unescape adminMessage }}
 </div>
 
 <!-- If adminMessage contains "<strong>Important:</strong> System maintenance" -->

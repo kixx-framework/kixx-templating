@@ -196,7 +196,7 @@ A Map containing all built-in helper functions.
 - `if`: Block helper for conditional rendering
 - `ifEqual`: Block helper for equality comparison
 - `ifEmpty`: Block helper for empty checks
-- `noop`: Inline helper that returns empty string
+- `unescape`: Inline helper that returns unescaped empty string
 
 **Example:**
 ```javascript
@@ -361,10 +361,10 @@ function ifempty_helper(context, options, value) {
 {{/ifEmpty}}
 ```
 
-#### `noop` Helper
+#### `unescape` Helper
 
 ```javascript
-function noop_helper(context, options, ...positionals) {
+function unescape_helper(context, options, ...positionals) {
     // Returns the first positional argument without HTML escaping
     return positionals[0] || '';
 }
@@ -373,13 +373,10 @@ function noop_helper(context, options, ...positionals) {
 **Example:**
 ```html
 <!-- Prevent HTML entity escaping -->
-<p>{{noop trustedHtmlContent }}</p>
-
-<!-- Debug: check if variable exists -->
-{{noop someVariable }}
+<p>{{unescape trustedHtmlContent }}</p>
 ```
 
-**Security Note:** Only use `noop` with trusted content to avoid XSS attacks.
+**Security Note:** Only use `unescape` with trusted content to avoid XSS attacks.
 
 ## Template Compilation Pipeline
 

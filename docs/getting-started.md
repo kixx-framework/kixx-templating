@@ -98,7 +98,7 @@ console.log(html);
     </div>
 ```
 
-**Security Note:** All expressions automatically escape HTML entities for security. If you need to render trusted HTML content, use the `noop` helper.
+**Security Note:** All expressions automatically escape HTML entities for security. If you need to render trusted HTML content, use the `unescape` helper.
 
 ## Project Structure
 

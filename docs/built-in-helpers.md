@@ -10,7 +10,7 @@ Kixx Templating comes with a set of essential helper functions that cover common
 | `#if` | Block | Conditional rendering based on truthiness |
 | `#ifEqual` | Block | Equality comparison using `==` |
 | `#ifEmpty` | Block | Check if a value is empty |
-| `noop` | Inline | No-operation helper to prevent automatic HTML entities encoding |
+| `unescape` | Inline | No-operation helper to prevent automatic HTML entities encoding |
 
 ## #each Helper
 
@@ -253,33 +253,30 @@ The `#ifEmpty` helper considers these values as **empty**:
 {{/ifEmpty}}
 ```
 
-## noop Helper
+## unescape Helper
 
-The `noop` helper is a no-operation helper that prevents automatic HTML entity escaping. It's useful when you want to render HTML content without escaping.
+The `unescape` helper is a no-operation helper that prevents automatic HTML entity escaping. It's useful when you want to render HTML content without escaping.
 
 ### Usage
 
 ```html
 <!-- Prevent HTML entity escaping for trusted content -->
-<p>{{noop trustedHtmlContent }}</p>
+<p>{{unescape trustedHtmlContent }}</p>
 
 <!-- Render HTML from a helper without double-escaping -->
-<div>{{noop renderMarkdown article.content }}</div>
-
-<!-- Debug: check if variable exists (returns empty string) -->
-{{noop user.name }}
+<div>{{unescape article.HTMLContent }}</div>
 ```
 
 ### Security Considerations
 
-**⚠️ Important:** Only use `noop` with content you trust. Never use it with untrusted user input as it can lead to XSS attacks.
+**⚠️ Important:** Only use `unescape` with content you trust. Never use it with untrusted user input as it can lead to XSS attacks.
 
 ```html
 <!-- Safe: Trusted content -->
-<p>{{noop adminMessage }}</p>
+<p>{{unescape adminMessage }}</p>
 
 <!-- Unsafe: Untrusted user input -->
-<p>{{noop userComment }}</p> <!-- DON'T DO THIS -->
+<p>{{unescape userComment }}</p> <!-- DON'T DO THIS -->
 ```
 
 ## Helper Combinations

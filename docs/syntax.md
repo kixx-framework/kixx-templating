@@ -224,33 +224,33 @@ Helper functions return their output **without** automatic HTML escaping:
 <!-- Output: <p><strong>Bold text</strong></p> -->
 ```
 
-### Using noop Helper to Prevent Escaping
+### Using unescape Helper to Prevent Escaping
 
-The `noop` helper can be used to prevent automatic HTML entity escaping for expressions:
+The `unescape` helper can be used to prevent automatic HTML entity escaping for expressions:
 
 ```html
 <!-- This will NOT escape HTML entities -->
-<p>{{noop userInput }}</p>
+<p>{{unescape userInput }}</p>
 
 <!-- If userInput contains "<script>alert('xss')</script>" -->
 <!-- Output: <p><script>alert('xss')</script></p> -->
 ```
 
-**⚠️ Security Warning:** Only use `noop` when you trust the content and want to render HTML. Never use it with untrusted user input.
+**⚠️ Security Warning:** Only use `unescape` when you trust the content and want to render HTML. Never use it with untrusted user input.
 
 ### Safe HTML Rendering
 
-For trusted HTML content, you can use helpers or `noop`:
+For trusted HTML content, you can use helpers or `unescape`:
 
 ```html
 <!-- Safe: Using a helper for trusted HTML -->
 <p>{{ renderMarkdown article.content }}</p>
 
-<!-- Safe: Using noop for trusted HTML -->
-<p>{{noop trustedHtmlContent }}</p>
+<!-- Safe: Using unescape for trusted HTML -->
+<p>{{unescape trustedHtmlContent }}</p>
 
-<!-- Unsafe: Using noop with untrusted content -->
-<p>{{noop userComment }}</p> <!-- DON'T DO THIS -->
+<!-- Unsafe: Using unescape with untrusted content -->
+<p>{{unescape userComment }}</p> <!-- DON'T DO THIS -->
 ```
 
 ## Error Handling

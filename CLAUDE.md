@@ -42,7 +42,7 @@ Located in `lib/helpers/mod.js` as a Map:
 - `if` - Conditional rendering with else support
 - `ifEmpty` - Render if value is empty/falsy
 - `ifEqual` - Strict equality comparison
-- `noop` - Pass-through (used to prevent HTML escaping)
+- `unescape` - Pass-through (used to prevent HTML escaping)
 
 ### Helper Function Signature
 

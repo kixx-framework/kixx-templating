@@ -177,7 +177,7 @@
         "startPosition": 0,
         "endPosition": 30,
         "tokenString": "        <div class=\"page-body\">",
-        "line": "        <div class=\"page-body\">{{noop body }}</div>\n"
+        "line": "        <div class=\"page-body\">{{unescape body }}</div>\n"
       }
     ]
   },
@@ -187,9 +187,9 @@
       {
         "type": "PATH",
         "path": [
-          "noop"
+          "unescape"
         ],
-        "pathString": "noop"
+        "pathString": "unescape"
       },
       {
         "type": "PATH",
@@ -204,9 +204,9 @@
         "filename": "base.html",
         "lineNumber": 9,
         "startPosition": 33,
-        "endPosition": 42,
-        "tokenString": "noop body ",
-        "line": "        <div class=\"page-body\">{{noop body }}</div>\n"
+        "endPosition": 46,
+        "tokenString": "unescape body ",
+        "line": "        <div class=\"page-body\">{{unescape body }}</div>\n"
       }
     ]
   },
@@ -217,10 +217,10 @@
       {
         "filename": "base.html",
         "lineNumber": 9,
-        "startPosition": 45,
-        "endPosition": 52,
+        "startPosition": 49,
+        "endPosition": 56,
         "tokenString": "</div>\n",
-        "line": "        <div class=\"page-body\">{{noop body }}</div>\n"
+        "line": "        <div class=\"page-body\">{{unescape body }}</div>\n"
       }
     ]
   },
