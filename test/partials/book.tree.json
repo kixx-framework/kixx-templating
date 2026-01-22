@@ -9,7 +9,7 @@
         "startPosition": 0,
         "endPosition": 25,
         "tokenString": "<span class=\"book__title\">",
-        "line": "<span class=\"book__title\">{{ book.title }}</span>\n"
+        "line": "<span class=\"book__title\">{{ title }}</span>\n"
       }
     ]
   },
@@ -19,10 +19,9 @@
       {
         "type": "PATH",
         "path": [
-          "book",
           "title"
         ],
-        "pathString": "book.title"
+        "pathString": "title"
       }
     ],
     "tokens": [
@@ -30,9 +29,9 @@
         "filename": "book.html",
         "lineNumber": 1,
         "startPosition": 28,
-        "endPosition": 39,
-        "tokenString": " book.title ",
-        "line": "<span class=\"book__title\">{{ book.title }}</span>\n"
+        "endPosition": 34,
+        "tokenString": " title ",
+        "line": "<span class=\"book__title\">{{ title }}</span>\n"
       }
     ]
   },
@@ -43,10 +42,10 @@
       {
         "filename": "book.html",
         "lineNumber": 1,
-        "startPosition": 42,
-        "endPosition": 50,
+        "startPosition": 37,
+        "endPosition": 45,
         "tokenString": "</span>\n",
-        "line": "<span class=\"book__title\">{{ book.title }}</span>\n"
+        "line": "<span class=\"book__title\">{{ title }}</span>\n"
       }
     ]
   },
@@ -60,7 +59,7 @@
         "startPosition": 0,
         "endPosition": 26,
         "tokenString": "<span class=\"book__author\">",
-        "line": "<span class=\"book__author\">{{ book.author }}</span>\n"
+        "line": "<span class=\"book__author\">{{ author }}</span>\n"
       }
     ]
   },
@@ -70,10 +69,9 @@
       {
         "type": "PATH",
         "path": [
-          "book",
           "author"
         ],
-        "pathString": "book.author"
+        "pathString": "author"
       }
     ],
     "tokens": [
@@ -81,9 +79,9 @@
         "filename": "book.html",
         "lineNumber": 2,
         "startPosition": 29,
-        "endPosition": 41,
-        "tokenString": " book.author ",
-        "line": "<span class=\"book__author\">{{ book.author }}</span>\n"
+        "endPosition": 36,
+        "tokenString": " author ",
+        "line": "<span class=\"book__author\">{{ author }}</span>\n"
       }
     ]
   },
@@ -94,10 +92,10 @@
       {
         "filename": "book.html",
         "lineNumber": 2,
-        "startPosition": 44,
-        "endPosition": 52,
+        "startPosition": 39,
+        "endPosition": 47,
         "tokenString": "</span>\n",
-        "line": "<span class=\"book__author\">{{ book.author }}</span>\n"
+        "line": "<span class=\"book__author\">{{ author }}</span>\n"
       }
     ]
   },

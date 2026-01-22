@@ -53,7 +53,9 @@
     {{ else }}
         <ul>
         {{#each books as |book|}}
+        {{#with book}}
         <li>{{> book.html }}</li>
+        {{/with}}
         {{/each}}
         </ul>
     {{/if}}
