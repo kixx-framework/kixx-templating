@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kixxauth/kixx-templating.git"
+    "url": "https://github.com/kixx-framework/kixx-templating.git"
   },
   "files": [
     "lib/",
@@ -32,7 +32,7 @@
   "author": "Kris Walker (www.kriswalker.me)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kixxauth/kixx-templating/issues"
+    "url": "https://github.com/kixx-framework/kixx-templating/issues"
   },
-  "homepage": "https://github.com/kixxauth/kixx-templating"
+  "homepage": "https://github.com/kixx-framework/kixx-templating"
 }
