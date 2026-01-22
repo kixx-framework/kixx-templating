@@ -40,7 +40,7 @@ Kixx Templating is a mustache-style templating engine with a three-phase compila
 Located in `lib/helpers/mod.js` as a Map:
 - `each` - Iterate over Arrays, Maps, Sets, or plain objects with block params
 - `if` - Conditional rendering with else support
-- `ifEmpty` - Render if value is empty/falsy
+- `unless` - Render if value is empty/falsy
 - `ifEqual` - Strict equality comparison
 - `unescape` - Pass-through (used to prevent HTML escaping)
 

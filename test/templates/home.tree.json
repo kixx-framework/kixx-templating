@@ -1518,7 +1518,7 @@
         "startPosition": 0,
         "endPosition": 3,
         "tokenString": "    ",
-        "line": "    {{#ifEmpty books}}\n"
+        "line": "    {{#unless books}}\n"
       }
     ]
   },
@@ -1528,9 +1528,9 @@
       {
         "type": "PATH",
         "path": [
-          "ifEmpty"
+          "unless"
         ],
-        "pathString": "ifEmpty"
+        "pathString": "unless"
       },
       {
         "type": "PATH",
@@ -1548,10 +1548,10 @@
           {
             "filename": "home.html",
             "lineNumber": 51,
-            "startPosition": 22,
-            "endPosition": 23,
+            "startPosition": 21,
+            "endPosition": 22,
             "tokenString": "\n",
-            "line": "    {{#ifEmpty books}}\n"
+            "line": "    {{#unless books}}\n"
           }
         ]
       },
@@ -1821,9 +1821,9 @@
         "filename": "home.html",
         "lineNumber": 51,
         "startPosition": 6,
-        "endPosition": 19,
-        "tokenString": "#ifEmpty books",
-        "line": "    {{#ifEmpty books}}\n"
+        "endPosition": 18,
+        "tokenString": "#unless books",
+        "line": "    {{#unless books}}\n"
       }
     ]
   },

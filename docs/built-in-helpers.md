@@ -9,7 +9,7 @@ Kixx Templating comes with a set of essential helper functions that cover common
 | `#each` | Block | Iterate over arrays, objects, Maps, and Sets |
 | `#if` | Block | Conditional rendering based on truthiness |
 | `#ifEqual` | Block | Equality comparison using `==` |
-| `#ifEmpty` | Block | Check if a value is empty |
+| `#unless` | Block | Check if a value is empty |
 | `unescape` | Inline | No-operation helper to prevent automatic HTML entities encoding |
 
 ## #each Helper
@@ -202,23 +202,23 @@ The `#ifEqual` helper compares two values using `==` equality and renders conten
 {{/ifEqual}}
 ```
 
-## #ifEmpty Helper
+## #unless Helper
 
-The `#ifEmpty` helper checks if a value is empty and renders content accordingly.
+The `#unless` helper checks if a value is empty and renders content accordingly.
 
 ### Basic Usage
 
 ```html
-{{#ifEmpty articles}}
+{{#unless articles}}
     <p>No articles available.</p>
 {{else}}
     <p>Found {{ articles.length }} articles.</p>
-{{/ifEmpty}}
+{{/unless}}
 ```
 
 ### Empty Value Rules
 
-The `#ifEmpty` helper considers these values as **empty**:
+The `#unless` helper considers these values as **empty**:
 - `false`
 - `0`
 - `""` (empty string)
@@ -232,25 +232,25 @@ The `#ifEmpty` helper considers these values as **empty**:
 
 ```html
 <!-- Array check -->
-{{#ifEmpty user.posts}}
+{{#unless user.posts}}
     <p>No posts yet.</p>
 {{else}}
     <p>{{ user.posts.length }} posts</p>
-{{/ifEmpty}}
+{{/unless}}
 
 <!-- String check -->
-{{#ifEmpty user.bio}}
+{{#unless user.bio}}
     <p>No bio provided.</p>
 {{else}}
     <p>{{ user.bio }}</p>
-{{/ifEmpty}}
+{{/unless}}
 
 <!-- Object check -->
-{{#ifEmpty user.preferences}}
+{{#unless user.preferences}}
     <p>No preferences set.</p>
 {{else}}
     <p>Preferences configured</p>
-{{/ifEmpty}}
+{{/unless}}
 ```
 
 ## unescape Helper

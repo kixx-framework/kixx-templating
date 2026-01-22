@@ -195,7 +195,7 @@ A Map containing all built-in helper functions.
 - `each`: Block helper for iteration
 - `if`: Block helper for conditional rendering
 - `ifEqual`: Block helper for equality comparison
-- `ifEmpty`: Block helper for empty checks
+- `unless`: Block helper for empty checks
 - `unescape`: Inline helper that returns unescaped empty string
 
 **Example:**
@@ -343,10 +343,10 @@ function ifequal_helper(context, options, value1, value2) {
 {{/ifEqual}}
 ```
 
-#### `ifEmpty` Helper
+#### `unless` Helper
 
 ```javascript
-function ifempty_helper(context, options, value) {
+function unless_helper(context, options, value) {
     // Renders block if value is empty
     // Returns rendered string
 }
@@ -354,11 +354,11 @@ function ifempty_helper(context, options, value) {
 
 **Example:**
 ```html
-{{#ifEmpty articles}}
+{{#unless articles}}
     <p>No articles found.</p>
 {{else}}
     <p>Found {{ articles.length }} articles.</p>
-{{/ifEmpty}}
+{{/unless}}
 ```
 
 #### `unescape` Helper

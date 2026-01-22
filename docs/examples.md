@@ -121,7 +121,7 @@ const context = {
 ```html
 <!-- article-list.html -->
 <div class="article-list">
-    {{#ifEmpty articles}}
+    {{#unless articles}}
         <p class="no-articles">No articles found.</p>
     {{else}}
         {{#each articles as |article, index|}}
@@ -140,7 +140,7 @@ const context = {
                 {{/if}}
             </article>
         {{/each}}
-    {{/ifEmpty}}
+    {{/unless}}
 </div>
 ```
 
@@ -338,7 +338,7 @@ const formContext = {
 ```html
 <!-- shopping-cart.html -->
 <div class="shopping-cart">
-    {{#ifEmpty cart.items}}
+    {{#unless cart.items}}
         <p>Your cart is empty.</p>
         <a href="/products" class="btn">Continue Shopping</a>
     {{else}}
@@ -368,7 +368,7 @@ const formContext = {
             <p class="total">Total: {{ formatCurrency cart.total }}</p>
             <button class="checkout-btn">Proceed to Checkout</button>
         </div>
-    {{/ifEmpty}}
+    {{/unless}}
 </div>
 ```
 
