@@ -379,32 +379,6 @@ Usage:
 {{/repeat}}
 ```
 
-### Registering Helpers
-
-```javascript
-class TemplateEngine {
-    #helpers = new Map(helpers);
-    #partials = new Map();
-
-    registerHelper(name, fn) {
-        this.#helpers.set(name, fn);
-    }
-
-    registerPartial(name, source) {
-        const tokens = tokenize(null, name, source);
-        const tree = buildSyntaxTree(null, tokens);
-        const partial = createRenderFunction(null, this.#helpers, this.#partials, tree);
-        this.#partials.set(name, partial);
-    }
-
-    compileTemplate(name, source) {
-        const tokens = tokenize(null, name, source);
-        const tree = buildSyntaxTree(null, tokens);
-        return createRenderFunction(null, this.#helpers, this.#partials, tree);
-    }
-}
-```
-
 ## API Reference
 
 ### Exports
@@ -452,3 +426,30 @@ Map containing all built-in helper functions.
 ### escapeHTMLChars(str)
 
 Escapes HTML special characters: `& < > " ' \` =`
+
+## Putting it All Together
+Using the primitives provided by kixx templating you can trivially create a template engine similar to this example. From there, it's not difficult to imagine how you could add more sophistication, like template caching, to your template engine.
+
+```javascript
+class TemplateEngine {
+    #helpers = new Map(helpers);
+    #partials = new Map();
+
+    registerHelper(name, fn) {
+        this.#helpers.set(name, fn);
+    }
+
+    registerPartial(name, source) {
+        const tokens = tokenize(null, name, source);
+        const tree = buildSyntaxTree(null, tokens);
+        const partial = createRenderFunction(null, this.#helpers, this.#partials, tree);
+        this.#partials.set(name, partial);
+    }
+
+    compileTemplate(name, source) {
+        const tokens = tokenize(null, name, source);
+        const tree = buildSyntaxTree(null, tokens);
+        return createRenderFunction(null, this.#helpers, this.#partials, tree);
+    }
+}
+```
