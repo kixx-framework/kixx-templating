@@ -1,0 +1,31 @@
+{
+    "name": "kixx-assert",
+    "version": "2.1.1",
+    "description": "Assertion library with an AssertionError class and assertion helpers",
+    "type": "module",
+    "main": "./mod.js",
+    "engines": {
+        "node": ">=16.13.2"
+    },
+    "scripts": {
+        "test": "node lint.js && node ./test/run-tests.js"
+    },
+    "homepage": "https://www.kixx.dev/",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kixx-framework/kixx-assert.git"
+    },
+    "bugs": {
+        "url": "https://github.com/kixx-framework/kixx-assert/issues"
+    },
+    "author": "Kris Walker (www.kriswalker.me)",
+    "license": "MIT",
+    "files": [
+        "mod.js"
+    ],
+    "keywords": [
+        "kixx",
+        "assertion",
+        "testing"
+    ]
+}

@@ -1,7 +1,7 @@
 import process from 'node:process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assert, assertEqual, assertArray, assertFalsy, AssertionError } from 'kixx-assert';
+import { assert, assertEqual, assertArray, assertFalsy, AssertionError } from '../vendor/kixx-assert/mod.js';
 import { tokenize, buildSyntaxTree, helpers } from '../mod.js';
 import expectedErrorCases from './expected-error-cases.js';
 import { readUtf8File, readFixtureFiles } from './shared.js';
