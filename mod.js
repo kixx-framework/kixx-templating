@@ -9,5 +9,5 @@ export {
     buildSyntaxTree,
     createRenderFunction,
     helpers,
-    escapeHTMLChars
+    escapeHTMLChars,
 };
