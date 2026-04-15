@@ -1,0 +1,28 @@
+{
+    "name": "@kixx/templating",
+    "version": "3.0.0",
+    "license": "MIT",
+    "exports": "./mod.js",
+    "publish": {
+        "include": [
+            "docs/",
+            "lib/",
+            "LICENSE",
+            "mod.js",
+            "README.md"
+        ]
+    }
+    "lint": {
+        "exclude": [
+            ".claude/",
+            "tmp/",
+            "vendor/"
+        ],
+        "rules": {
+            "exclude": [
+                "no-slow-types",
+                "no-this-alias"
+            ]
+        }
+    }
+}
