@@ -3,7 +3,6 @@ export default [
         ignores: [
             '.claude/',
             'skills/',
-            'test/partials/script.js',
             'tmp/',
             'vendor/',
         ],

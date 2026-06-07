@@ -3,19 +3,16 @@
   "note": "Cause-tagged expected outcomes. `npm run spec` gates on actual === outcome. Regenerate with `node test/mustache-spec.js --update`.",
   "tests": {
     "interpolation:No Interpolation": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "interpolation:Basic Interpolation": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "interpolation:No Re-interpolation": {
       "outcome": "pass"
     },
     "interpolation:HTML Escaping": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "interpolation:Triple Mustache": {
       "outcome": "threw",
@@ -70,8 +67,7 @@
       "cause": "unescaped-mustache"
     },
     "interpolation:Dotted Names - Basic Interpolation": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "interpolation:Dotted Names - Triple Mustache Interpolation": {
       "outcome": "threw",
@@ -91,12 +87,10 @@
       "outcome": "pass"
     },
     "interpolation:Dotted Names - Initial Resolution": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "interpolation:Dotted Names - Context Precedence": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "interpolation:Dotted Names are never single keys": {
       "outcome": "pass"
@@ -105,12 +99,10 @@
       "outcome": "pass"
     },
     "interpolation:Implicit Iterators - Basic Interpolation": {
-      "outcome": "threw",
-      "cause": "implicit-iterator"
+      "outcome": "pass"
     },
     "interpolation:Implicit Iterators - HTML Escaping": {
-      "outcome": "threw",
-      "cause": "implicit-iterator"
+      "outcome": "pass"
     },
     "interpolation:Implicit Iterators - Triple Mustache": {
       "outcome": "threw",
@@ -121,8 +113,7 @@
       "cause": "unescaped-mustache"
     },
     "interpolation:Implicit Iterators - Basic Integer Interpolation": {
-      "outcome": "threw",
-      "cause": "implicit-iterator"
+      "outcome": "pass"
     },
     "interpolation:Interpolation - Surrounding Whitespace": {
       "outcome": "pass"
@@ -136,8 +127,7 @@
       "cause": "unescaped-mustache"
     },
     "interpolation:Interpolation - Standalone": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "interpolation:Triple Mustache - Standalone": {
       "outcome": "threw",
@@ -159,80 +149,63 @@
       "cause": "unescaped-mustache"
     },
     "sections:Truthy": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Falsey": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Null is falsey": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Context": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Parent contexts": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Variable test": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:List Contexts": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Deeply Nested Contexts": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:List": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Empty List": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Doubled": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:Nested (Truthy)": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Nested (Falsey)": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Context Misses": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - String": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - Integer": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - Decimal": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - Array": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - HTML Escaping": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - Triple mustache": {
       "outcome": "threw",
@@ -243,144 +216,122 @@
       "cause": "unescaped-mustache"
     },
     "sections:Implicit Iterator - Root-level": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Dotted Names - Truthy": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Dotted Names - Falsey": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Dotted Names - Broken Chains": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Surrounding Whitespace": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Internal Whitespace": {
       "outcome": "threw",
       "cause": "comment-syntax"
     },
     "sections:Indented Inline Sections": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "sections:Standalone Lines": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:Indented Standalone Lines": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:Standalone Line Endings": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:Standalone Without Previous Line": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:Standalone Without Newline": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "implicit-section"
     },
     "sections:Padding": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "inverted:Falsey": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Truthy": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Null is falsey": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Context": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:List": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Empty List": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Doubled": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "inverted-section"
     },
     "inverted:Nested (Falsey)": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Nested (Truthy)": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Context Misses": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Dotted Names - Truthy": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Dotted Names - Falsey": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Dotted Names - Broken Chains": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Surrounding Whitespace": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Internal Whitespace": {
       "outcome": "threw",
       "cause": "comment-syntax"
     },
     "inverted:Indented Inline Sections": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "inverted:Standalone Lines": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "inverted-section"
     },
     "inverted:Standalone Indented Lines": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "inverted-section"
     },
     "inverted:Standalone Line Endings": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "inverted-section"
     },
     "inverted:Standalone Without Previous Line": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "inverted-section"
     },
     "inverted:Standalone Without Newline": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "inverted-section"
     },
     "inverted:Padding": {
-      "outcome": "threw",
-      "cause": "inverted-section"
+      "outcome": "pass"
     },
     "comments:Inline": {
       "outcome": "threw",
@@ -441,8 +392,7 @@
       "outcome": "pass"
     },
     "partials:Recursion": {
-      "outcome": "threw",
-      "cause": "implicit-section"
+      "outcome": "pass"
     },
     "partials:Nested": {
       "outcome": "pass"
@@ -451,8 +401,7 @@
       "outcome": "pass"
     },
     "partials:Inline Indentation": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "partials:Standalone Line Endings": {
       "outcome": "fail",
@@ -550,11 +499,11 @@
       "cause": "lambdas"
     },
     "~lambdas:Section": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Section - Expansion": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Section - Alternate Delimiters": {
@@ -562,12 +511,11 @@
       "cause": "lambdas"
     },
     "~lambdas:Section - Multiple Calls": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Inverted Section": {
-      "outcome": "threw",
-      "cause": "lambdas"
+      "outcome": "pass"
     },
     "~dynamic-names:Basic Behavior - Partial": {
       "outcome": "threw",
