@@ -9,7 +9,10 @@
         "node": ">=16.13.2"
     },
     "scripts": {
-        "test": "node lint.js && node ./test/run-tests.js"
+        "test": "node lint.js && node ./test/run-tests.js && node ./test/mustache-spec.js",
+        "spec": "node ./test/mustache-spec.js",
+        "spec:report": "node ./test/mustache-spec.js --report",
+        "spec:update": "node ./test/mustache-spec.js --update"
     },
     "homepage": "https://www.kixx.dev/",
     "repository": {
