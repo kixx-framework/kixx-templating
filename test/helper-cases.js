@@ -72,6 +72,24 @@ export default [
         );
     },
 
+    function partialsResolveLazilyAtRenderTime() {
+        const partials = new Map();
+        const render = compile('t', 'a{{> late}}b', new Map(), partials);
+
+        partials.set('late', compile('late', '{{x}}', new Map(), partials));
+
+        assertEqual('aXb', render({ x: 'X' }));
+    },
+
+    function latePartialsInheritTheContextStack() {
+        const partials = new Map();
+        const render = compile('t', '{{#players}}{{> row}}{{/players}}', new Map(), partials);
+
+        partials.set('row', compile('row', '{{game}}/{{name}};', new Map(), partials));
+
+        assertEqual('G/a;G/b;', render({ game: 'G', players: [ { name: 'a' }, { name: 'b' } ] }));
+    },
+
     function noSpuriousTrailingNewline() {
         assertEqual('a\nb', compile('t', 'a\nb')({}));
         assertEqual('x\n', compile('t', 'x\n')({}));

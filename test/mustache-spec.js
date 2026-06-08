@@ -25,6 +25,7 @@ const OPTIONAL_FILES = [
 const SPEC_DIR_URL = new URL('./mustache-spec/', import.meta.url);
 const BASELINE_URL = new URL('./mustache-spec-baseline.json', import.meta.url);
 const REPORT_URL = new URL('../tmp/mustache-conformance-report.md', import.meta.url);
+const ENGINE_LABEL = 'current Kixx (through Phase 3 partial semantics; standalone whitespace deferred)';
 
 
 // Render a single spec test through the CURRENT Kixx pipeline. No helpers are
@@ -256,7 +257,7 @@ async function writeReport(results, commit) {
     lines.push('');
     lines.push(`Spec commit: \`${ commit }\``);
     lines.push(`Generated: ${ new Date().toISOString() }`); // eslint-disable-line no-undef
-    lines.push(`Engine: current Kixx (Phase 0 baseline — no changes yet)`);
+    lines.push(`Engine: ${ ENGINE_LABEL }`);
     lines.push('');
     lines.push(`**Core compliance: ${ corePass } / ${ coreTotal } (${ pct(corePass, coreTotal) }%)**`);
     lines.push('');
