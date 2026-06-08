@@ -22,9 +22,39 @@ export default [
         assertEqual('<li>a</li><li>b</li>', render({ items: [ { name: 'a' }, { name: 'b' } ] }));
     },
 
+    function dataSectionIteratesMaps() {
+        const render = compile('t', '{{#items}}{{root}}:{{name}};{{/items}}');
+        const items = new Map([
+            [ 'a', { name: 'A' } ],
+            [ 'b', { name: 'B' } ],
+        ]);
+
+        assertEqual('R:A;R:B;', render({ root: 'R', items }));
+    },
+
+    function dataSectionIteratesSets() {
+        const render = compile('t', '{{#items}}({{.}}){{/items}}');
+        assertEqual('(a)(b)', render({ items: new Set([ 'a', 'b' ]) }));
+    },
+
+    function dataSectionIteratesObjects() {
+        const render = compile('t', '{{#items}}{{root}}:{{name}};{{/items}}');
+        const items = {
+            a: { name: 'A' },
+            b: { name: 'B' },
+        };
+
+        assertEqual('R:A;R:B;', render({ root: 'R', items }));
+    },
+
     function invertedSectionRendersWhenEmpty() {
         const render = compile('t', '{{^items}}none{{/items}}');
         assertEqual('none', render({ items: [] }));
+    },
+
+    function invertedSectionRendersWhenObjectEmpty() {
+        const render = compile('t', '{{^items}}none{{/items}}');
+        assertEqual('none', render({ items: {} }));
     },
 
     function implicitIterator() {
@@ -34,7 +64,7 @@ export default [
 
     function upwardLookupThroughFrames() {
         const render = compile('t', '{{#a}}{{#b}}{{root}}{{inner}}{{/b}}{{/a}}');
-        assertEqual('R!', render({ root: 'R', a: { b: { inner: '!' } } }));
+        assertEqual('R!', render({ root: 'R', a: [ { b: [ { inner: '!' } ] } ] }));
     },
 
     function eachHelperWithBlockParams() {

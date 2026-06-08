@@ -19,14 +19,32 @@ Usage Documentation
 -------------------
 See the [docs/](./docs) folder for comprehensive docs.
 
+Mustache Compatibility
+----------------------
+
+Kixx targets the core Mustache spec where it fits the project's constraints and
+performance goals. The optional Mustache extensions `~lambdas`, `~dynamic-names`, and
+`~inheritance` are intentionally unsupported. Use inline and block helpers for template
+logic that would otherwise be expressed with lambdas.
+
+One intentional divergence: pure data sections iterate arrays, Maps, Sets, and plain
+object values. Core Mustache treats plain object sections as a single pushed context.
+
 Architecture
 ------------
 
-Kixx Templating is a mustache-style templating engine with a three-phase compilation pipeline:
+Kixx Templating is a mustache-style templating engine with three public compilation
+steps:
 
-1. **Tokenize** (`lib/tokenize.js`) - Splits template source into tokens based on `{{` `}}` delimiters and `{{!-- --}}` comments
-2. **Build Syntax Tree** (`lib/build-syntax-tree.js`) - Parses tokens into an AST with node types: `CONTENT`, `COMMENT`, `PATH_EXPRESSION`, `HELPER_EXPRESSION`, `BLOCK_OPEN`, `BLOCK_CLOSE`, `PARTIAL`, `ELSE`
-3. **Create Render Function** (`lib/create-render-function.js`) - Transforms AST into an executable render function that accepts a context object
+1. **Tokenize** (`lib/tokenize.js`) - Splits template source into tokens, handles
+   dynamic Mustache delimiters like `{{=<% %>=}}`, and captures standalone whitespace
+   metadata.
+2. **Build Syntax Tree** (`lib/build-syntax-tree.js`) - Parses tokens into an AST for
+   content, comments, interpolations, sections, helpers, partials, delimiter changes,
+   and raw output tags.
+3. **Create Render Function** (`lib/create-render-function.js`) - Compiles the AST into
+   pre-bound render closures. Rendering uses a zero-copy context stack for Mustache
+   name resolution instead of copying context objects for nested scopes.
 
 Development
 -----------

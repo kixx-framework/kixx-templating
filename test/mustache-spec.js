@@ -22,6 +22,17 @@ const OPTIONAL_FILES = [
     '~inheritance',
 ];
 
+const OBJECT_SECTION_ITERATION_FAILURES = new Set([
+    'interpolation:Dotted Names - Basic Interpolation',
+    'interpolation:Dotted Names - Triple Mustache Interpolation',
+    'interpolation:Dotted Names - Ampersand Interpolation',
+    'interpolation:Dotted Names - Initial Resolution',
+    'interpolation:Dotted Names - Context Precedence',
+    'sections:Context',
+    'sections:Parent contexts',
+    'sections:Deeply Nested Contexts',
+]);
+
 const SPEC_DIR_URL = new URL('./mustache-spec/', import.meta.url);
 const BASELINE_URL = new URL('./mustache-spec-baseline.json', import.meta.url);
 const REPORT_URL = new URL('../tmp/mustache-conformance-report.md', import.meta.url);
@@ -52,10 +63,11 @@ function runSpecTest(test) {
     return render(data);
 }
 
-// Spec lambdas are encoded as { __tag__: "code", js: "...", ... }. Reconstruct the
-// JS function so lambda tests can execute once the engine supports them. This uses
-// the Function constructor, which is acceptable in TEST tooling (it never ships in
-// the library, where it is a hard constraint).
+// Optional lambda fixtures encode function-valued data as { __tag__: "code",
+// js: "...", ... }. Kixx intentionally does not implement lambda semantics, but
+// materializing these values keeps the optional report honest about current behavior
+// when function values appear in data. This uses the Function constructor only in
+// TEST tooling; it never ships in the library, where it is a hard constraint.
 function materializeData(value) {
     if (!value || typeof value !== 'object') {
         return value;
@@ -103,6 +115,10 @@ function classifyCause(spec, test, result) {
     }
     if (spec.file === '~inheritance') {
         return 'inheritance';
+    }
+
+    if (OBJECT_SECTION_ITERATION_FAILURES.has(`${ spec.file }:${ test.name }`)) {
+        return 'object-section-iteration';
     }
 
     const tpl = test.template;
@@ -260,6 +276,11 @@ async function writeReport(results, commit) {
     lines.push(`Engine: ${ ENGINE_LABEL }`);
     lines.push('');
     lines.push(`**Core compliance: ${ corePass } / ${ coreTotal } (${ pct(corePass, coreTotal) }%)**`);
+    lines.push('');
+    lines.push(
+        'Optional spec files are tracked for visibility only. ' +
+        '`~lambdas`, `~dynamic-names`, and `~inheritance` are intentionally unsupported.',
+    );
     lines.push('');
 
     lines.push('## Per-file results');

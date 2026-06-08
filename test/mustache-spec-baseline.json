@@ -57,13 +57,16 @@
       "outcome": "pass"
     },
     "interpolation:Dotted Names - Basic Interpolation": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "interpolation:Dotted Names - Triple Mustache Interpolation": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "interpolation:Dotted Names - Ampersand Interpolation": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "interpolation:Dotted Names - Arbitrary Depth": {
       "outcome": "pass"
@@ -75,10 +78,12 @@
       "outcome": "pass"
     },
     "interpolation:Dotted Names - Initial Resolution": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "interpolation:Dotted Names - Context Precedence": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "interpolation:Dotted Names are never single keys": {
       "outcome": "pass"
@@ -138,10 +143,12 @@
       "outcome": "pass"
     },
     "sections:Context": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "sections:Parent contexts": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "sections:Variable test": {
       "outcome": "pass"
@@ -150,7 +157,8 @@
       "outcome": "pass"
     },
     "sections:Deeply Nested Contexts": {
-      "outcome": "pass"
+      "outcome": "fail",
+      "cause": "object-section-iteration"
     },
     "sections:List": {
       "outcome": "pass"
