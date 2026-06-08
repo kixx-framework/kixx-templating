@@ -1,8 +1,13 @@
 {
     "name": "kixx-templating",
-    "version": "5.0.1",
+    "version": "6.0.0",
     "description": "A simple and robust markup and text templating system for JavaScript environments.",
     "type": "module",
+    "files": [
+        "docs/",
+        "lib/",
+        "mod.js"
+    ],
     "exports": "./mod.js",
     "main": "./mod.js",
     "engines": {
@@ -26,11 +31,6 @@
     },
     "author": "Kris Walker (www.kriswalker.me)",
     "license": "MIT",
-    "files": [
-        "docs/",
-        "lib/",
-        "mod.js"
-    ],
     "keywords": [
         "kixx",
         "templating",
