@@ -25,7 +25,7 @@ const OPTIONAL_FILES = [
 const SPEC_DIR_URL = new URL('./mustache-spec/', import.meta.url);
 const BASELINE_URL = new URL('./mustache-spec-baseline.json', import.meta.url);
 const REPORT_URL = new URL('../tmp/mustache-conformance-report.md', import.meta.url);
-const ENGINE_LABEL = 'current Kixx (through Phase 3 partial semantics; standalone whitespace deferred)';
+const ENGINE_LABEL = 'current Kixx (through Phase 4 set delimiter semantics; standalone whitespace deferred)';
 
 
 // Render a single spec test through the CURRENT Kixx pipeline. No helpers are
@@ -108,6 +108,15 @@ function classifyCause(spec, test, result) {
     const tpl = test.template;
     const err = result.error || '';
 
+    if (result.outcome === 'fail') {
+        if (whitespaceOnlyDiff(result.output, test.expected)) {
+            return 'standalone-whitespace';
+        }
+        if (escapingSupersetDiff(result.output, test.expected)) {
+            return 'escaping-superset';
+        }
+    }
+
     if (/\{\{\s*=/.test(tpl)) {
         return 'set-delimiters';
     }
@@ -131,15 +140,6 @@ function classifyCause(spec, test, result) {
     }
     if (/\{\{\s*\.\s*\}\}/.test(tpl)) {
         return 'implicit-iterator';
-    }
-
-    if (result.outcome === 'fail') {
-        if (whitespaceOnlyDiff(result.output, test.expected)) {
-            return 'standalone-whitespace';
-        }
-        if (escapingSupersetDiff(result.output, test.expected)) {
-            return 'escaping-superset';
-        }
     }
 
     return 'other';

@@ -151,7 +151,7 @@
     },
     "sections:Deeply Nested Contexts": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:List": {
       "outcome": "pass"
@@ -161,7 +161,7 @@
     },
     "sections:Doubled": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:Nested (Truthy)": {
       "outcome": "pass"
@@ -216,23 +216,23 @@
     },
     "sections:Standalone Lines": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:Indented Standalone Lines": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:Standalone Line Endings": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:Standalone Without Previous Line": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:Standalone Without Newline": {
       "outcome": "fail",
-      "cause": "implicit-section"
+      "cause": "standalone-whitespace"
     },
     "sections:Padding": {
       "outcome": "pass"
@@ -257,7 +257,7 @@
     },
     "inverted:Doubled": {
       "outcome": "fail",
-      "cause": "inverted-section"
+      "cause": "standalone-whitespace"
     },
     "inverted:Nested (Falsey)": {
       "outcome": "pass"
@@ -288,23 +288,23 @@
     },
     "inverted:Standalone Lines": {
       "outcome": "fail",
-      "cause": "inverted-section"
+      "cause": "standalone-whitespace"
     },
     "inverted:Standalone Indented Lines": {
       "outcome": "fail",
-      "cause": "inverted-section"
+      "cause": "standalone-whitespace"
     },
     "inverted:Standalone Line Endings": {
       "outcome": "fail",
-      "cause": "inverted-section"
+      "cause": "standalone-whitespace"
     },
     "inverted:Standalone Without Previous Line": {
       "outcome": "fail",
-      "cause": "inverted-section"
+      "cause": "standalone-whitespace"
     },
     "inverted:Standalone Without Newline": {
       "outcome": "fail",
-      "cause": "inverted-section"
+      "cause": "standalone-whitespace"
     },
     "inverted:Padding": {
       "outcome": "pass"
@@ -317,31 +317,31 @@
     },
     "comments:Standalone": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Indented Standalone": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Standalone Line Endings": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Standalone Without Previous Line": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Standalone Without Newline": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Multiline Standalone": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Indented Multiline Standalone": {
       "outcome": "fail",
-      "cause": "comment-syntax"
+      "cause": "standalone-whitespace"
     },
     "comments:Indented Inline": {
       "outcome": "pass"
@@ -393,60 +393,54 @@
       "outcome": "pass"
     },
     "delimiters:Pair Behavior": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "pass"
     },
     "delimiters:Special Characters": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "pass"
     },
     "delimiters:Sections": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Inverted Sections": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Partial Inheritence": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Post-Partial Behavior": {
-      "outcome": "threw",
-      "cause": "other"
+      "outcome": "pass"
     },
     "delimiters:Surrounding Whitespace": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "pass"
     },
     "delimiters:Outlying Whitespace (Inline)": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "pass"
     },
     "delimiters:Standalone Tag": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Indented Standalone Tag": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Standalone Line Endings": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Standalone Without Previous Line": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Standalone Without Newline": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "delimiters:Pair with Padding": {
-      "outcome": "threw",
-      "cause": "set-delimiters"
+      "outcome": "pass"
     },
     "~lambdas:Interpolation": {
       "outcome": "fail",
@@ -457,7 +451,7 @@
       "cause": "lambdas"
     },
     "~lambdas:Interpolation - Alternate Delimiters": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Interpolation - Multiple Calls": {
@@ -477,7 +471,7 @@
       "cause": "lambdas"
     },
     "~lambdas:Section - Alternate Delimiters": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Section - Multiple Calls": {

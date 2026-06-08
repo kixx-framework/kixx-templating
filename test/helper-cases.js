@@ -122,6 +122,26 @@ export default [
         assertEqual('ab', render({}));
     },
 
+    function setDelimitersChangeFollowingTags() {
+        const render = compile('t', '({{=<% %>=}}<%text%>)');
+        assertEqual('(Hey!)', render({ text: 'Hey!' }));
+    },
+
+    function setDelimitersStayLocalToPartials() {
+        const partials = new Map();
+
+        partials.set('include', compile('include', '.{{value}}. {{= | | =}} .|value|.', new Map(), partials));
+
+        const render = compile(
+            't',
+            '[ {{>include}} ]\n{{= | | =}}[ |>include| ]\n[ .{{value}}.  .|value|. ]\n',
+            new Map(),
+            partials,
+        );
+
+        assertEqual('[ .yes.  .yes. ]\n[ .yes.  .yes. ]\n[ .{{value}}.  .yes. ]\n', render({ value: 'yes' }));
+    },
+
     function pluggableEscapeHook() {
         const escape = (value) => String(value).replace(/'/g, '&#x27;');
         const tokens = tokenize(null, 't', '{{x}}');
