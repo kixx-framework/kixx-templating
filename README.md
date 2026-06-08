@@ -53,6 +53,8 @@ The package.json defines the following commands:
 
 | Command | Description |
 |---------|-------------|
+| `npm run benchmark` | Runs the Phase 8 performance benchmark suite and writes `tmp/phase8-benchmark-report.md`. |
+| `npm run benchmark:quick` | Runs a shorter smoke-test version of the Phase 8 benchmarks. |
 | `npm test` | Runs the full suite: the linter, the unit/snapshot tests, and the Mustache spec compliance gate. |
 | `npm run spec` | Runs only the Mustache spec compliance check. It compiles every test from the vendored spec (`test/mustache-spec/`) and compares the results against the checked-in baseline (`test/mustache-spec-baseline.json`). Read-only; exits non-zero if results regress or otherwise drift from the baseline. |
 | `npm run spec:report` | Runs the spec check and (re)generates the human-readable conformance report at `tmp/mustache-conformance-report.md`. |
