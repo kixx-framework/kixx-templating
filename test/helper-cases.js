@@ -79,6 +79,15 @@ export default [
         assertEqual('R:a;R:b;', render({ root: 'R', items: [ 'a', 'b' ] }));
     },
 
+    function eachHelperRendersInverseForEmptyCollections() {
+        const helpers = new Map([ [ 'each', builtinHelpers.get('each') ] ]);
+        const render = compile('t', '{{#each items as |item|}}{{item}}{{else}}none{{/each}}', helpers);
+        assertEqual('none', render({ items: [] }));
+        assertEqual('none', render({ items: new Map() }));
+        assertEqual('none', render({ items: new Set() }));
+        assertEqual('none', render({ items: {} }));
+    },
+
     function ifHelperWithElse() {
         const helpers = new Map([ [ 'if', builtinHelpers.get('if') ] ]);
         const render = compile('t', '{{#if x}}yes{{else}}no{{/if}}', helpers);

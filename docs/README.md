@@ -262,7 +262,9 @@ For Maps and plain objects, the second block parameter is the key or property na
 {{/each}}
 ```
 
-Use `else` to handle empty arrays, missing values, `null`, and non-object values:
+Use `else` to handle empty collections, missing values, `null`, and non-object
+values. The `else` branch renders for empty arrays, empty Maps, empty Sets, and empty
+plain objects:
 
 ```html
 {{#each images as |image| }}
@@ -271,9 +273,6 @@ Use `else` to handle empty arrays, missing values, `null`, and non-object values
     <p>No images to display</p>
 {{/each}}
 ```
-
-Current implementation note: empty Maps, Sets, and plain objects render no output from
-`#each` instead of rendering the `else` branch.
 
 ### if Helper
 
