@@ -1,0 +1,644 @@
+{
+  "spec_commit": "e8ec001db7f594521e773c34866aca2b5d6b0037",
+  "note": "Cause-tagged expected outcomes. `npm run spec` gates on actual === outcome. Regenerate with `node test/mustache-spec.js --update`.",
+  "tests": {
+    "interpolation:No Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Basic Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:No Re-interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:HTML Escaping": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand": {
+      "outcome": "pass"
+    },
+    "interpolation:Basic Integer Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache Integer Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand Integer Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Basic Decimal Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache Decimal Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand Decimal Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Basic Null Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache Null Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand Null Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Basic Context Miss Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache Context Miss Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand Context Miss Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Dotted Names - Basic Interpolation": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "interpolation:Dotted Names - Triple Mustache Interpolation": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "interpolation:Dotted Names - Ampersand Interpolation": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "interpolation:Dotted Names - Arbitrary Depth": {
+      "outcome": "pass"
+    },
+    "interpolation:Dotted Names - Broken Chains": {
+      "outcome": "pass"
+    },
+    "interpolation:Dotted Names - Broken Chain Resolution": {
+      "outcome": "pass"
+    },
+    "interpolation:Dotted Names - Initial Resolution": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "interpolation:Dotted Names - Context Precedence": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "interpolation:Dotted Names are never single keys": {
+      "outcome": "pass"
+    },
+    "interpolation:Dotted Names - No Masking": {
+      "outcome": "pass"
+    },
+    "interpolation:Implicit Iterators - Basic Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Implicit Iterators - HTML Escaping": {
+      "outcome": "pass"
+    },
+    "interpolation:Implicit Iterators - Triple Mustache": {
+      "outcome": "pass"
+    },
+    "interpolation:Implicit Iterators - Ampersand": {
+      "outcome": "pass"
+    },
+    "interpolation:Implicit Iterators - Basic Integer Interpolation": {
+      "outcome": "pass"
+    },
+    "interpolation:Interpolation - Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache - Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand - Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "interpolation:Interpolation - Standalone": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache - Standalone": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand - Standalone": {
+      "outcome": "pass"
+    },
+    "interpolation:Interpolation With Padding": {
+      "outcome": "pass"
+    },
+    "interpolation:Triple Mustache With Padding": {
+      "outcome": "pass"
+    },
+    "interpolation:Ampersand With Padding": {
+      "outcome": "pass"
+    },
+    "sections:Truthy": {
+      "outcome": "pass"
+    },
+    "sections:Falsey": {
+      "outcome": "pass"
+    },
+    "sections:Null is falsey": {
+      "outcome": "pass"
+    },
+    "sections:Context": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "sections:Parent contexts": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "sections:Variable test": {
+      "outcome": "pass"
+    },
+    "sections:List Contexts": {
+      "outcome": "pass"
+    },
+    "sections:Deeply Nested Contexts": {
+      "outcome": "fail",
+      "cause": "object-section-iteration"
+    },
+    "sections:List": {
+      "outcome": "pass"
+    },
+    "sections:Empty List": {
+      "outcome": "pass"
+    },
+    "sections:Doubled": {
+      "outcome": "pass"
+    },
+    "sections:Nested (Truthy)": {
+      "outcome": "pass"
+    },
+    "sections:Nested (Falsey)": {
+      "outcome": "pass"
+    },
+    "sections:Context Misses": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - String": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - Integer": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - Decimal": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - Array": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - HTML Escaping": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - Triple mustache": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - Ampersand": {
+      "outcome": "pass"
+    },
+    "sections:Implicit Iterator - Root-level": {
+      "outcome": "pass"
+    },
+    "sections:Dotted Names - Truthy": {
+      "outcome": "pass"
+    },
+    "sections:Dotted Names - Falsey": {
+      "outcome": "pass"
+    },
+    "sections:Dotted Names - Broken Chains": {
+      "outcome": "pass"
+    },
+    "sections:Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "sections:Internal Whitespace": {
+      "outcome": "pass"
+    },
+    "sections:Indented Inline Sections": {
+      "outcome": "pass"
+    },
+    "sections:Standalone Lines": {
+      "outcome": "pass"
+    },
+    "sections:Indented Standalone Lines": {
+      "outcome": "pass"
+    },
+    "sections:Standalone Line Endings": {
+      "outcome": "pass"
+    },
+    "sections:Standalone Without Previous Line": {
+      "outcome": "pass"
+    },
+    "sections:Standalone Without Newline": {
+      "outcome": "pass"
+    },
+    "sections:Padding": {
+      "outcome": "pass"
+    },
+    "inverted:Falsey": {
+      "outcome": "pass"
+    },
+    "inverted:Truthy": {
+      "outcome": "pass"
+    },
+    "inverted:Null is falsey": {
+      "outcome": "pass"
+    },
+    "inverted:Context": {
+      "outcome": "pass"
+    },
+    "inverted:List": {
+      "outcome": "pass"
+    },
+    "inverted:Empty List": {
+      "outcome": "pass"
+    },
+    "inverted:Doubled": {
+      "outcome": "pass"
+    },
+    "inverted:Nested (Falsey)": {
+      "outcome": "pass"
+    },
+    "inverted:Nested (Truthy)": {
+      "outcome": "pass"
+    },
+    "inverted:Context Misses": {
+      "outcome": "pass"
+    },
+    "inverted:Dotted Names - Truthy": {
+      "outcome": "pass"
+    },
+    "inverted:Dotted Names - Falsey": {
+      "outcome": "pass"
+    },
+    "inverted:Dotted Names - Broken Chains": {
+      "outcome": "pass"
+    },
+    "inverted:Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "inverted:Internal Whitespace": {
+      "outcome": "pass"
+    },
+    "inverted:Indented Inline Sections": {
+      "outcome": "pass"
+    },
+    "inverted:Standalone Lines": {
+      "outcome": "pass"
+    },
+    "inverted:Standalone Indented Lines": {
+      "outcome": "pass"
+    },
+    "inverted:Standalone Line Endings": {
+      "outcome": "pass"
+    },
+    "inverted:Standalone Without Previous Line": {
+      "outcome": "pass"
+    },
+    "inverted:Standalone Without Newline": {
+      "outcome": "pass"
+    },
+    "inverted:Padding": {
+      "outcome": "pass"
+    },
+    "comments:Inline": {
+      "outcome": "pass"
+    },
+    "comments:Multiline": {
+      "outcome": "pass"
+    },
+    "comments:Standalone": {
+      "outcome": "pass"
+    },
+    "comments:Indented Standalone": {
+      "outcome": "pass"
+    },
+    "comments:Standalone Line Endings": {
+      "outcome": "pass"
+    },
+    "comments:Standalone Without Previous Line": {
+      "outcome": "pass"
+    },
+    "comments:Standalone Without Newline": {
+      "outcome": "pass"
+    },
+    "comments:Multiline Standalone": {
+      "outcome": "pass"
+    },
+    "comments:Indented Multiline Standalone": {
+      "outcome": "pass"
+    },
+    "comments:Indented Inline": {
+      "outcome": "pass"
+    },
+    "comments:Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "comments:Variable Name Collision": {
+      "outcome": "pass"
+    },
+    "partials:Basic Behavior": {
+      "outcome": "pass"
+    },
+    "partials:Failed Lookup": {
+      "outcome": "pass"
+    },
+    "partials:Context": {
+      "outcome": "pass"
+    },
+    "partials:Recursion": {
+      "outcome": "pass"
+    },
+    "partials:Nested": {
+      "outcome": "pass"
+    },
+    "partials:Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "partials:Inline Indentation": {
+      "outcome": "pass"
+    },
+    "partials:Standalone Line Endings": {
+      "outcome": "pass"
+    },
+    "partials:Standalone Without Previous Line": {
+      "outcome": "pass"
+    },
+    "partials:Standalone Without Newline": {
+      "outcome": "pass"
+    },
+    "partials:Standalone Indentation": {
+      "outcome": "pass"
+    },
+    "partials:Padding Whitespace": {
+      "outcome": "pass"
+    },
+    "delimiters:Pair Behavior": {
+      "outcome": "pass"
+    },
+    "delimiters:Special Characters": {
+      "outcome": "pass"
+    },
+    "delimiters:Sections": {
+      "outcome": "pass"
+    },
+    "delimiters:Inverted Sections": {
+      "outcome": "pass"
+    },
+    "delimiters:Partial Inheritence": {
+      "outcome": "pass"
+    },
+    "delimiters:Post-Partial Behavior": {
+      "outcome": "pass"
+    },
+    "delimiters:Surrounding Whitespace": {
+      "outcome": "pass"
+    },
+    "delimiters:Outlying Whitespace (Inline)": {
+      "outcome": "pass"
+    },
+    "delimiters:Standalone Tag": {
+      "outcome": "pass"
+    },
+    "delimiters:Indented Standalone Tag": {
+      "outcome": "pass"
+    },
+    "delimiters:Standalone Line Endings": {
+      "outcome": "pass"
+    },
+    "delimiters:Standalone Without Previous Line": {
+      "outcome": "pass"
+    },
+    "delimiters:Standalone Without Newline": {
+      "outcome": "pass"
+    },
+    "delimiters:Pair with Padding": {
+      "outcome": "pass"
+    },
+    "~lambdas:Interpolation": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Interpolation - Expansion": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Interpolation - Alternate Delimiters": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Interpolation - Multiple Calls": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Escaping": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Section": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Section - Expansion": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Section - Alternate Delimiters": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Section - Multiple Calls": {
+      "outcome": "fail",
+      "cause": "lambdas"
+    },
+    "~lambdas:Inverted Section": {
+      "outcome": "pass"
+    },
+    "~dynamic-names:Basic Behavior - Partial": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Basic Behavior - Name Resolution": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Context Misses - Partial": {
+      "outcome": "pass"
+    },
+    "~dynamic-names:Failed Lookup - Partial": {
+      "outcome": "pass"
+    },
+    "~dynamic-names:Context": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Dotted Names": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Dotted Names - Operator Precedence": {
+      "outcome": "pass"
+    },
+    "~dynamic-names:Dotted Names - Failed Lookup": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Dotted names - Context Stacking": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Dotted names - Context Stacking Under Repetition": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Dotted names - Context Stacking Failed Lookup": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Recursion": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Dynamic Names - Double Dereferencing": {
+      "outcome": "pass"
+    },
+    "~dynamic-names:Dynamic Names - Composed Dereferencing": {
+      "outcome": "pass"
+    },
+    "~dynamic-names:Surrounding Whitespace": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Inline Indentation": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Standalone Line Endings": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Standalone Without Previous Line": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Standalone Without Newline": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Standalone Indentation": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~dynamic-names:Padding Whitespace": {
+      "outcome": "fail",
+      "cause": "dynamic-names"
+    },
+    "~inheritance:Default": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Variable": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Triple Mustache": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Sections": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Negative Sections": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Mustache Injection": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Inherit": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Overridden content": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Data does not override block": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Data does not override block default": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Overridden parent": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Two overridden parents": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Override parent with newlines": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Inherit indentation": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Only one override": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Parent template": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Recursion": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Multi-level inheritance": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Multi-level inheritance, no sub child": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Text inside parent": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Block scope": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Standalone parent": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Standalone block": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Block reindentation": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Intrinsic indentation": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    },
+    "~inheritance:Nested block reindentation": {
+      "outcome": "threw",
+      "cause": "inheritance"
+    }
+  }
+}

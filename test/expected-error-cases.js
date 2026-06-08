@@ -240,6 +240,54 @@ export default [
         });
     },
 
+    function test12() {
+        const source = [
+            '<html>',
+            '<head></head>',
+            '  <body>',
+            '  <article>',
+            // A close tag with no matching open block.
+            '    {{/if}}',
+            '  </article>',
+            '  </body>',
+            '</html>',
+        ].join('\n');
+
+        assertThrows(() => {
+            createAndRenderTemplate('test-12', source, {});
+        }, (error) => {
+            assertEqual('Unexpected block close "{{/if}}" with no matching open block in test-12 on line 5', error.message);
+            assertEqual('test-12', error.filename);
+            assertEqual(5, error.lineNumber);
+            assertEqual(4, error.startPosition);
+        });
+    },
+
+    function test13() {
+        const source = [
+            '<html>',
+            '<head></head>',
+            '  <body>',
+            '  <article>',
+            // The close tag name does not match the open block name.
+            '    {{#if article }}',
+            '    <p>{{ article.subtitle }}</p>',
+            '    {{/each}}',
+            '  </article>',
+            '  </body>',
+            '</html>',
+        ].join('\n');
+
+        assertThrows(() => {
+            createAndRenderTemplate('test-13', source, {});
+        }, (error) => {
+            assertEqual('Mismatched block close "{{/each}}" does not match block "{{#if}}" opened in test-13 on line 5', error.message);
+            assertEqual('test-13', error.filename);
+            assertEqual(7, error.lineNumber);
+            assertEqual(4, error.startPosition);
+        });
+    },
+
     function test11() {
         // The image helper throws an error.
         const image = () => {
@@ -268,26 +316,6 @@ export default [
             assertEqual('test-11', error.filename);
             assertEqual(5, error.lineNumber);
             assertEqual(14, error.startPosition);
-        });
-    },
-
-    function test12() {
-        const source = [
-            '<html>',
-            '<head></head>',
-            '  <body>',
-            '    {{> article.html }}',
-            '  </body>',
-            '</html>',
-        ].join('\n');
-
-        assertThrows(() => {
-            createAndRenderTemplate('test-12', source, {});
-        }, (error) => {
-            assertEqual('No partial named "article.html" in "test-12" on line 4', error.message);
-            assertEqual('test-12', error.filename);
-            assertEqual(4, error.lineNumber);
-            assertEqual(6, error.startPosition);
         });
     },
 ];

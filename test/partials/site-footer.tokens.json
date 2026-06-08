@@ -1,5 +1,0 @@
-[
-{"filename":"site-footer.html","lineNumber":1,"startPosition":0,"endPosition":9,"tokenString":"<footer>\n","line":"<footer>\n"},
-{"filename":"site-footer.html","lineNumber":2,"startPosition":0,"endPosition":30,"tokenString":"    <p>This is the footer</p>\n","line":"    <p>This is the footer</p>\n"},
-{"filename":"site-footer.html","lineNumber":3,"startPosition":0,"endPosition":10,"tokenString":"</footer>\n","line":"</footer>\n"}
-]
