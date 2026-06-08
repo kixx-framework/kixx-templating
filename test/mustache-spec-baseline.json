@@ -15,67 +15,55 @@
       "outcome": "pass"
     },
     "interpolation:Triple Mustache": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Basic Integer Interpolation": {
       "outcome": "pass"
     },
     "interpolation:Triple Mustache Integer Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand Integer Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Basic Decimal Interpolation": {
       "outcome": "pass"
     },
     "interpolation:Triple Mustache Decimal Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand Decimal Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Basic Null Interpolation": {
       "outcome": "pass"
     },
     "interpolation:Triple Mustache Null Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand Null Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Basic Context Miss Interpolation": {
       "outcome": "pass"
     },
     "interpolation:Triple Mustache Context Miss Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand Context Miss Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Dotted Names - Basic Interpolation": {
       "outcome": "pass"
     },
     "interpolation:Dotted Names - Triple Mustache Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Dotted Names - Ampersand Interpolation": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Dotted Names - Arbitrary Depth": {
       "outcome": "pass"
@@ -105,12 +93,10 @@
       "outcome": "pass"
     },
     "interpolation:Implicit Iterators - Triple Mustache": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Implicit Iterators - Ampersand": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Implicit Iterators - Basic Integer Interpolation": {
       "outcome": "pass"
@@ -119,34 +105,28 @@
       "outcome": "pass"
     },
     "interpolation:Triple Mustache - Surrounding Whitespace": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand - Surrounding Whitespace": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Interpolation - Standalone": {
       "outcome": "pass"
     },
     "interpolation:Triple Mustache - Standalone": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand - Standalone": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Interpolation With Padding": {
       "outcome": "pass"
     },
     "interpolation:Triple Mustache With Padding": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "interpolation:Ampersand With Padding": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "sections:Truthy": {
       "outcome": "pass"
@@ -208,12 +188,10 @@
       "outcome": "pass"
     },
     "sections:Implicit Iterator - Triple mustache": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - Ampersand": {
-      "outcome": "threw",
-      "cause": "unescaped-mustache"
+      "outcome": "pass"
     },
     "sections:Implicit Iterator - Root-level": {
       "outcome": "pass"
@@ -231,8 +209,7 @@
       "outcome": "pass"
     },
     "sections:Internal Whitespace": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "sections:Indented Inline Sections": {
       "outcome": "pass"
@@ -304,8 +281,7 @@
       "outcome": "pass"
     },
     "inverted:Internal Whitespace": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "inverted:Indented Inline Sections": {
       "outcome": "pass"
@@ -334,59 +310,53 @@
       "outcome": "pass"
     },
     "comments:Inline": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "comments:Multiline": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "comments:Standalone": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Indented Standalone": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Standalone Line Endings": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Standalone Without Previous Line": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Standalone Without Newline": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Multiline Standalone": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Indented Multiline Standalone": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "comment-syntax"
     },
     "comments:Indented Inline": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "comments:Surrounding Whitespace": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "comments:Variable Name Collision": {
-      "outcome": "threw",
-      "cause": "comment-syntax"
+      "outcome": "pass"
     },
     "partials:Basic Behavior": {
       "outcome": "pass"
     },
     "partials:Failed Lookup": {
-      "outcome": "threw",
-      "cause": "partial-missing-throws"
+      "outcome": "pass"
     },
     "partials:Context": {
       "outcome": "pass"
@@ -416,8 +386,8 @@
       "cause": "standalone-whitespace"
     },
     "partials:Standalone Indentation": {
-      "outcome": "threw",
-      "cause": "other"
+      "outcome": "fail",
+      "cause": "standalone-whitespace"
     },
     "partials:Padding Whitespace": {
       "outcome": "pass"
@@ -491,11 +461,11 @@
       "cause": "lambdas"
     },
     "~lambdas:Interpolation - Multiple Calls": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Escaping": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "lambdas"
     },
     "~lambdas:Section": {
@@ -518,87 +488,82 @@
       "outcome": "pass"
     },
     "~dynamic-names:Basic Behavior - Partial": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Basic Behavior - Name Resolution": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Context Misses - Partial": {
-      "outcome": "threw",
-      "cause": "dynamic-names"
+      "outcome": "pass"
     },
     "~dynamic-names:Failed Lookup - Partial": {
-      "outcome": "threw",
-      "cause": "dynamic-names"
+      "outcome": "pass"
     },
     "~dynamic-names:Context": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Dotted Names": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Dotted Names - Operator Precedence": {
-      "outcome": "threw",
-      "cause": "dynamic-names"
+      "outcome": "pass"
     },
     "~dynamic-names:Dotted Names - Failed Lookup": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Dotted names - Context Stacking": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Dotted names - Context Stacking Under Repetition": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Dotted names - Context Stacking Failed Lookup": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Recursion": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Dynamic Names - Double Dereferencing": {
-      "outcome": "threw",
-      "cause": "dynamic-names"
+      "outcome": "pass"
     },
     "~dynamic-names:Dynamic Names - Composed Dereferencing": {
-      "outcome": "threw",
-      "cause": "dynamic-names"
+      "outcome": "pass"
     },
     "~dynamic-names:Surrounding Whitespace": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Inline Indentation": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Standalone Line Endings": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Standalone Without Previous Line": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Standalone Without Newline": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Standalone Indentation": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~dynamic-names:Padding Whitespace": {
-      "outcome": "threw",
+      "outcome": "fail",
       "cause": "dynamic-names"
     },
     "~inheritance:Default": {

@@ -76,4 +76,39 @@ export default [
         assertEqual('a\nb', compile('t', 'a\nb')({}));
         assertEqual('x\n', compile('t', 'x\n')({}));
     },
+
+    function escapedInterpolationUsesSpecSet() {
+        const render = compile('t', '{{x}}');
+        // Spec set escapes & < > " but NOT ' ` =
+        assertEqual('&amp;&lt;&gt;&quot;', render({ x: '&<>"' }));
+        assertEqual("'`=", render({ x: "'`=" }));
+    },
+
+    function tripleMustacheIsUnescaped() {
+        const render = compile('t', '{{{x}}}');
+        assertEqual('<b>&</b>', render({ x: '<b>&</b>' }));
+    },
+
+    function ampersandIsUnescaped() {
+        const render = compile('t', '{{&x}}');
+        assertEqual('<b>&</b>', render({ x: '<b>&</b>' }));
+    },
+
+    function singleBangCommentProducesNoOutput() {
+        const render = compile('t', 'a{{! ignore me }}b');
+        assertEqual('ab', render({}));
+    },
+
+    function missingPartialRendersEmpty() {
+        const render = compile('t', 'a{{> nope}}b');
+        assertEqual('ab', render({}));
+    },
+
+    function pluggableEscapeHook() {
+        const escape = (value) => String(value).replace(/'/g, '&#x27;');
+        const tokens = tokenize(null, 't', '{{x}}');
+        const tree = buildSyntaxTree(null, tokens);
+        const render = createRenderFunction({ escape }, new Map(), new Map(), tree);
+        assertEqual('&#x27;', render({ x: "'" }));
+    },
 ];

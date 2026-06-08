@@ -270,26 +270,6 @@ export default [
             assertEqual(14, error.startPosition);
         });
     },
-
-    function test12() {
-        const source = [
-            '<html>',
-            '<head></head>',
-            '  <body>',
-            '    {{> article.html }}',
-            '  </body>',
-            '</html>',
-        ].join('\n');
-
-        assertThrows(() => {
-            createAndRenderTemplate('test-12', source, {});
-        }, (error) => {
-            assertEqual('No partial named "article.html" in "test-12" on line 4', error.message);
-            assertEqual('test-12', error.filename);
-            assertEqual(4, error.lineNumber);
-            assertEqual(6, error.startPosition);
-        });
-    },
 ];
 
 
