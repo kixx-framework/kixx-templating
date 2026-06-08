@@ -16,9 +16,14 @@ Data functions are treated like ordinary values; the renderer does not call them
 re-parse returned strings as templates. Use inline helpers for computed interpolation and
 block helpers for custom section behavior.
 
+Kixx data sections treat `false`, `null`, `undefined`, empty arrays, empty Maps, empty
+Sets, and empty plain objects as falsey. Numeric `0` and empty strings render as scalar
+section values.
+
 ## Basic Expressions
 
-Kixx templating uses mustache style syntax with double curly braces `{{ ... }}` for template expressions.
+Kixx Templating uses Mustache-style syntax with double curly braces `{{ ... }}` for
+template expressions.
 
 ### Simple Variable Output
 
@@ -35,12 +40,14 @@ const context = {
 ```
 
 Output:
+
 ```html
 <h1>Follow the Leader</h1>
 <p>by Eric B. &amp; Rakim</p>
 ```
 
-Notice that the "&" was converted to `&amp;`. HTML escaping is automatic. See [HTML Escaping](#html-escaping) for more details.
+Notice that the `&` was converted to `&amp;`. HTML escaping is automatic. See
+[HTML Escaping](#html-escaping) for more details.
 
 ### Raw Output
 
@@ -78,8 +85,8 @@ Properties with special characters like dashes need bracket notation:
 ```javascript
 const context = {
     headers: {
-        "Content-Type": "text/html",
-        "Content-Length": 199,
+        'Content-Type': 'text/html',
+        'Content-Length': 199,
     },
 };
 ```
@@ -88,7 +95,9 @@ const context = {
 <dd>{{ headers[Content-Type] }}</dd>
 ```
 
-⚠️ You do *not* need quotes inside the brackets like JavaScript. Use `[Content-Type]` not `["Content-Type"]`.
+Bracket contents are literal path segments, not JavaScript expressions. Use
+`[Content-Type]`, not `["Content-Type"]`. Use numeric bracket segments for array
+indexes, such as `images[0]`.
 
 ### Comments
 
@@ -99,7 +108,7 @@ const context = {
 
 {{!--
     This is a multi-line
-    comment..
+    comment.
 --}}
 
 {{!-- Comments can contain {{ mustaches }} --}}
@@ -149,16 +158,21 @@ objects render the inverted section.
 
 ### Scalar Sections
 
-A truthy scalar section renders once. Use `{{.}}` to output the scalar itself.
+A scalar section renders once unless the value is `false`, `null`, or `undefined`.
+Numeric `0` and empty strings render once. Use `{{.}}` to output the scalar itself.
 
 ```html
 {{#status}}Status: {{.}}{{/status}}
 ```
 
+```html
+{{#count}}Count: {{.}}{{/count}}
+```
+
 ### Inverted Sections
 
-An inverted section renders when a value is `false`, `null`, `undefined`, or an empty
-array.
+An inverted section renders when a value is `false`, `null`, `undefined`, an empty
+array, an empty Map, an empty Set, or an empty plain object.
 
 ```html
 {{#articles}}
@@ -169,9 +183,9 @@ array.
 {{/articles}}
 ```
 
-Kixx data sections do not expose indexes, keys, or `{{else}}`. Use `{{^name}}` for
-inverse data sections, and use the `#each` helper when you need indexes, keys, or block
-params.
+Kixx data sections do not expose indexes, keys, or `{{else}}`. Map keys and object
+property names are not available inside data sections. Use `{{^name}}` for inverse data
+sections, and use the `#each` helper when you need indexes, keys, or block params.
 
 ## Delimiters
 
@@ -196,11 +210,14 @@ iteration, equality checks, formatting, and other custom behavior.
 |--------|------|-------------|
 | `#each` | Block | Iterate over arrays, objects, Maps, and Sets |
 | `#if` | Block | Conditional rendering based on truthiness |
-| `#unless` | Block | Inverse of if - renders when falsy |
+| `#unless` | Block | Render when a value is falsey |
 | `#ifEqual` | Block | Equality comparison using `==` |
 | `#with` | Block | Change the context scope |
 | `unescape` | Inline | Prevent automatic HTML escaping |
 | `plusOne` | Inline | Add 1 to a number (useful for array indexes) |
+
+`{{else}}` splits helper blocks into primary and inverse branches. Whitespace around
+`{{else}}` is preserved, so place it intentionally when exact text output matters.
 
 ### each Helper
 
@@ -216,7 +233,8 @@ Iterate over arrays, Maps, Sets, or plain objects:
 </ul>
 ```
 
-⚠️ Remember to include the closing `{{/each}}` tag.
+Remember to include the closing `{{/each}}` tag. The first block parameter is required.
+Block parameter names are separated by whitespace; do not use commas.
 
 The second block parameter references different things based on the iterable type:
 
@@ -228,7 +246,7 @@ The second block parameter references different things based on the iterable typ
 | Object | property name |
 
 ```html
-{{#each weatherStations as |stationCode, index| }}
+{{#each weatherStations as |stationCode index| }}
 <li>
     <span>{{plusOne index }}.</span>
     <a href="/stations/{{ stationCode }}">{{ stationCode }}</a>
@@ -236,7 +254,15 @@ The second block parameter references different things based on the iterable typ
 {{/each}}
 ```
 
-Use `else` to handle empty lists:
+For Maps and plain objects, the second block parameter is the key or property name:
+
+```html
+{{#each usersById as |user id| }}
+    <a href="/users/{{ id }}">{{ user.name }}</a>
+{{/each}}
+```
+
+Use `else` to handle empty arrays, missing values, `null`, and non-object values:
 
 ```html
 {{#each images as |image| }}
@@ -245,6 +271,9 @@ Use `else` to handle empty lists:
     <p>No images to display</p>
 {{/each}}
 ```
+
+Current implementation note: empty Maps, Sets, and plain objects render no output from
+`#each` instead of rendering the `else` branch.
 
 ### if Helper
 
@@ -258,15 +287,15 @@ Conditional rendering based on truthiness:
 {{/if}}
 ```
 
-**Truthy values:** non-empty strings, non-zero numbers, `true`, objects, and non-empty
-arrays/Maps/Sets
+**Truthy values:** non-empty strings, non-zero numbers, `true`, plain objects,
+including empty plain objects, and non-empty arrays/Maps/Sets
 
-**Falsy values:** `false`, `0`, `""`, `null`, `undefined`, empty arrays `[]`, and empty
+**Falsey values:** `false`, `0`, `""`, `null`, `undefined`, empty arrays `[]`, and empty
 Maps/Sets
 
 ### unless Helper
 
-Renders when the value is falsy (inverse of `#if`):
+Renders when the value is falsey:
 
 ```html
 {{#unless articles}}
@@ -275,6 +304,9 @@ Renders when the value is falsy (inverse of `#if`):
     <p>Found {{ articles.length }} articles.</p>
 {{/unless}}
 ```
+
+`#unless` renders its primary block for `false`, `0`, `""`, `null`, `undefined`, empty
+arrays, empty Maps, empty Sets, and empty plain objects.
 
 ### ifEqual Helper
 
@@ -302,7 +334,8 @@ Chain for switch-like behavior:
 
 ### with Helper
 
-Changes the context scope for a block. Useful for reducing repetition when accessing nested properties:
+Changes the context scope for a block. Useful for reducing repetition when accessing
+nested properties:
 
 ```javascript
 const context = {
@@ -311,9 +344,9 @@ const context = {
         profile: {
             name: 'Jane Doe',
             bio: 'Software developer',
-            email: 'jane@example.com'
-        }
-    }
+            email: 'jane@example.com',
+        },
+    },
 };
 ```
 
@@ -332,16 +365,19 @@ The value is pushed onto the context stack, so its properties are resolved first
 parent context properties like `site.name` remain accessible.
 
 The else block renders when the value is:
-- Falsy (`null`, `undefined`, `false`, `0`, `""`)
+
+- Falsey (`null`, `undefined`, `false`, `0`, `""`)
 - An empty array `[]`
 - An empty Map or Set
+
+An empty plain object is treated as a context value and renders the primary block.
 
 ### plusOne Helper
 
 Adds 1 to a number. Useful for displaying 1-based indexes:
 
 ```html
-{{#each images as |image, index| }}
+{{#each images as |image index| }}
 <div>
     <span>{{plusOne index }}.</span>
     <img src="{{ image.src }}" alt="{{ image.alt }}" />
@@ -360,6 +396,10 @@ All helpers can span multiple lines:
     format="DATETIME_MED"
 }}</p>
 ```
+
+Helper arguments can be paths, quoted string literals, integer literals, boolean
+literals, `null`, or `undefined`. Named arguments are collected into the `options`
+object passed to the helper.
 
 ## HTML Escaping
 
@@ -397,7 +437,8 @@ Only use raw output with content you trust. Never use it with untrusted user inp
 
 ### Escaping in Custom Helpers
 
-Helper output is NOT automatically escaped. Use `escapeHTMLChars()` in your helpers:
+Helper output is not automatically escaped, even when the helper is called with double
+braces. Return escaped strings yourself when helper output includes untrusted content:
 
 ```javascript
 import { escapeHTMLChars } from 'kixx-templating';
@@ -406,6 +447,9 @@ function myHelper(context, options, userInput) {
     return escapeHTMLChars(userInput);
 }
 ```
+
+Helpers should return strings for predictable rendering. `null` and `undefined` helper
+returns are not converted to empty strings automatically.
 
 ## Partials
 
@@ -444,6 +488,9 @@ parent context fields:
 
 If a partial name is not registered, it renders as an empty string.
 
+Partial names are literal. Dynamic partial names such as `{{>*name}}` are part of an
+optional Mustache extension and are not supported.
+
 Standalone partials preserve indentation:
 
 ```html
@@ -469,6 +516,9 @@ function helperName(context, options, ...positionals) {
 | `context` | The current frame value |
 | `options` | Named arguments passed to the helper |
 | `...positionals` | Positional arguments |
+
+Positional path arguments are resolved before the helper is called. Named arguments such
+as `format="long"` are available on `options`.
 
 ### Inline Helper Example
 
@@ -499,7 +549,7 @@ Block helpers use `this` context for rendering:
 ```javascript
 function repeat(context, options, count) {
     let output = '';
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i += 1) {
         output += this.renderPrimary({ index: i });
     }
     return output;
@@ -517,6 +567,33 @@ Usage:
 The object passed to `renderPrimary()` is pushed onto the context stack. Parent context
 values remain visible without copying them into the new object.
 
+Block helpers can also use the names declared with `as |...|`:
+
+```javascript
+function entries(context, options, value) {
+    const [ valueName, keyName ] = this.blockParams;
+    let output = '';
+
+    for (const key of Object.keys(value)) {
+        output += this.renderPrimary({
+            [keyName]: key,
+            [valueName]: value[key],
+        });
+    }
+
+    return output;
+}
+```
+
+Usage:
+
+```html
+{{#entries settings as |value key| }}
+    <dt>{{ key }}</dt>
+    <dd>{{ value }}</dd>
+{{/entries}}
+```
+
 ## API Reference
 
 ### Exports
@@ -527,7 +604,7 @@ import {
     buildSyntaxTree,
     createRenderFunction,
     helpers,
-    escapeHTMLChars
+    escapeHTMLChars,
 } from 'kixx-templating';
 ```
 
@@ -554,10 +631,11 @@ Creates a render function from an AST.
 - `options` - Pass `null`, or an object with `escape` to override escaped interpolation
   output
 - `helpers` - Map of helper functions
-- `partials` - Map of compiled partial functions
+- `partials` - Map of compiled partial render functions
 - `tree` - AST from `buildSyntaxTree()`
 
-Returns a function: `(context) => string`
+Returns a render function: `(context) => string`. Partials are looked up at render time,
+so a template can reference partials registered after the template was compiled.
 
 ### helpers
 
@@ -568,9 +646,18 @@ Map containing all built-in helper functions.
 Escapes the Mustache HTML special characters: `& < > "`
 
 ## Putting it All Together
-Using the primitives provided by kixx templating you can trivially create a template engine similar to this example. From there, it's not difficult to imagine how you could add more sophistication, like template caching, to your template engine.
+
+Using the primitives provided by Kixx Templating, you can create a small template engine
+and then add application-specific behavior such as template caching.
 
 ```javascript
+import {
+    tokenize,
+    buildSyntaxTree,
+    createRenderFunction,
+    helpers,
+} from 'kixx-templating';
+
 class TemplateEngine {
     #helpers = new Map(helpers);
     #partials = new Map();
@@ -592,4 +679,27 @@ class TemplateEngine {
         return createRenderFunction(null, this.#helpers, this.#partials, tree);
     }
 }
+```
+
+```javascript
+const engine = new TemplateEngine();
+
+engine.registerPartial('track-row', '<li>{{ title }} - {{ duration }}</li>');
+
+const render = engine.compileTemplate('track-list', `
+<h1>{{ album }}</h1>
+<ol>
+{{#tracks}}
+    {{> track-row }}
+{{/tracks}}
+</ol>
+`);
+
+render({
+    album: 'Follow the Leader',
+    tracks: [
+        { title: 'Follow the Leader', duration: '5:36' },
+        { title: 'Microphone Fiend', duration: '5:17' },
+    ],
+});
 ```

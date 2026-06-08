@@ -30,6 +30,8 @@ logic that would otherwise be expressed with lambdas.
 One intentional divergence: pure data sections iterate arrays, Maps, Sets, and plain
 object values. Core Mustache treats plain object sections as a single pushed context.
 
+See mustache-conformance-report.md for a detailed report.
+
 Architecture
 ------------
 
