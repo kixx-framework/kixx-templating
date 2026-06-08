@@ -2,30 +2,33 @@
 
 A simple and robust markup and text templating system for JavaScript environments.
 
+Kixx uses Mustache-style `{{ ... }}` syntax. It supports the core Mustache feature set
+plus a small library of Kixx helper extensions for the logic that Mustache deliberately
+leaves out (iteration with indexes, conditionals, equality checks, scope changes, and
+custom formatting).
+
 ## Mustache Compatibility
 
-Kixx supports core Mustache-style templates plus Kixx helper extensions. The optional
+Kixx implements core Mustache templates plus Kixx helper extensions. The optional
 Mustache spec extensions `~lambdas`, `~dynamic-names`, and `~inheritance` are
-intentionally unsupported.
+intentionally unsupported. Use inline helpers for computed interpolation and block
+helpers for the section behavior that lambdas would otherwise provide.
 
-One intentional divergence from core Mustache: pure data sections iterate arrays, Maps,
-Sets, and plain object values. Core Mustache treats plain object sections as a single
-pushed context.
+Two intentional differences from core Mustache are worth knowing up front:
 
-Data functions are treated like ordinary values; the renderer does not call them or
-re-parse returned strings as templates. Use inline helpers for computed interpolation and
-block helpers for custom section behavior.
+- **Object sections iterate.** A plain object section iterates over its own enumerable
+  property values. Core Mustache treats a plain object section as a single pushed
+  context. (Arrays, Maps, and Sets also iterate.)
+- **Data values are never called.** A value that happens to be a function is treated like
+  any other value; the renderer does not invoke it or re-parse a returned string as a
+  template.
 
-Kixx data sections treat `false`, `null`, `undefined`, empty arrays, empty Maps, empty
-Sets, and empty plain objects as falsey. Numeric `0` and empty strings render as scalar
-section values.
+For the exact rules on which values count as empty or falsey, see
+[Falsiness and Empty Values](#falsiness-and-empty-values).
 
 ## Basic Expressions
 
-Kixx Templating uses Mustache-style syntax with double curly braces `{{ ... }}` for
-template expressions.
-
-### Simple Variable Output
+A double-mustache tag interpolates a value from the context object.
 
 ```javascript
 const context = {
@@ -41,37 +44,40 @@ const context = {
 
 Output:
 
-```html
+```text
 <h1>Follow the Leader</h1>
 <p>by Eric B. &amp; Rakim</p>
 ```
 
-Notice that the `&` was converted to `&amp;`. HTML escaping is automatic. See
-[HTML Escaping](#html-escaping) for more details.
+The `&` became `&amp;` because escaped interpolation is automatic. See
+[HTML Escaping](#html-escaping) for the full policy.
 
-### Raw Output
-
-Use triple mustache or ampersand tags for trusted content that should not be escaped:
-
-```html
-<article>{{{ htmlBody }}}</article>
-<article>{{& htmlBody }}</article>
-```
-
-Raw output bypasses HTML escaping. Only use it for content you trust.
+A tag whose value is `null` or `undefined` renders as an empty string.
 
 ### Nested Property Access
 
-Use dot notation for nested objects:
+Use dot notation to reach nested properties:
+
+```javascript
+const context = {
+    song: {
+        writer: { firstName: 'Eric', lastName: 'Barrier' },
+        released: 1988,
+    },
+};
+```
 
 ```html
 <p>{{ song.writer.firstName }} {{ song.writer.lastName }}</p>
 <p>Released: {{ song.released }}</p>
 ```
 
-### Array Access
+If any link in the chain is missing, the whole expression resolves to `undefined` and
+renders as an empty string.
 
-Use bracket notation for array indexes:
+### Array Indexes
+
+Use bracket notation with a numeric segment for array elements:
 
 ```html
 <img src="{{ images[0].src }}" alt="{{ images[0].alt }}" />
@@ -80,7 +86,8 @@ Use bracket notation for array indexes:
 
 ### Bracket Notation for Special Characters
 
-Properties with special characters like dashes need bracket notation:
+Property names containing characters that are not valid in dot notation (dashes, spaces,
+and so on) must use bracket notation:
 
 ```javascript
 const context = {
@@ -95,35 +102,54 @@ const context = {
 <dd>{{ headers[Content-Type] }}</dd>
 ```
 
-Bracket contents are literal path segments, not JavaScript expressions. Use
-`[Content-Type]`, not `["Content-Type"]`. Use numeric bracket segments for array
-indexes, such as `images[0]`.
+Bracket contents are **literal path segments, not JavaScript expressions**. Write
+`[Content-Type]`, not `["Content-Type"]` — the quotes would become part of the key. A
+numeric segment such as `[0]` is an array index.
+
+### Raw, Unescaped Output
+
+Triple-mustache and ampersand tags emit their value without HTML escaping:
+
+```html
+<article>{{{ htmlBody }}}</article>
+<article>{{& htmlBody }}</article>
+```
+
+Both forms are equivalent. Only use them for content you trust — never for untrusted
+user input. See [HTML Escaping](#html-escaping) for the safe alternatives.
 
 ### Comments
 
-```html
-{{! This is a Mustache comment }}
+Single-line and multi-line comments produce no output:
 
-{{!-- This is a single line comment --}}
+```html
+{{! A short Mustache comment }}
+
+{{!-- A single-line comment --}}
 
 {{!--
-    This is a multi-line
+    A multi-line
     comment.
 --}}
+```
 
-{{!-- Comments can contain {{ mustaches }} --}}
-{{!-- and they won't be processed. --}}
+Comments may contain mustaches; their contents are never parsed:
+
+```html
+{{!-- {{ this }} is ignored --}}
 ```
 
 ## Sections
 
-Mustache sections render based on data, without registering helpers.
+Mustache sections render based on the shape of the data, without registering any helper.
+A section opens with `{{#name}}` and closes with `{{/name}}`. How it renders depends on
+the value of `name`.
 
 ### Array Sections
 
-An array section renders once for each item. The item is pushed onto the context stack,
-so `{{.}}` resolves to the current item and object properties resolve from the item first.
-Parent context remains visible.
+An array section renders its block once per item. Each item is pushed onto the context
+stack, so `{{.}}` resolves to the current item, the item's own properties resolve first,
+and parent context remains visible.
 
 ```javascript
 const context = {
@@ -139,40 +165,74 @@ const context = {
 <h2>{{ listName }}</h2>
 <ul>
 {{#tracks}}
-    <li>{{ title }}</li>
+    <li>{{ title }} — {{ listName }}</li>
 {{/tracks}}
 </ul>
 ```
 
+Output:
+
+```text
+<h2>Tracks</h2>
+<ul>
+    <li>Follow the Leader — Tracks</li>
+    <li>Microphone Fiend — Tracks</li>
+</ul>
+```
+
+`{{ listName }}` still resolves inside the block because name resolution walks up the
+context stack (see [Name Resolution](#name-resolution)).
+
 ### Map, Set, and Object Sections
 
-Map and Set sections render once for each value. Plain object sections render once for
-each own enumerable property value, in `Object.keys()` order. Empty Maps, Sets, and plain
-objects render the inverted section.
+Map and Set sections render once per value. Plain object sections render once per own
+enumerable property value, in `Object.keys()` order. Keys and property names are **not**
+exposed inside data sections — use the [`each`](#each-helper) helper when you need them.
+
+```javascript
+const context = {
+    usersById: {
+        u1: { name: 'Ada' },
+        u2: { name: 'Linus' },
+    },
+};
+```
 
 ```html
+<ul>
 {{#usersById}}
-    <p>{{ name }}</p>
+    <li>{{ name }}</li>
 {{/usersById}}
+</ul>
+```
+
+Output:
+
+```text
+<ul>
+    <li>Ada</li>
+    <li>Linus</li>
+</ul>
 ```
 
 ### Scalar Sections
 
-A scalar section renders once unless the value is `false`, `null`, or `undefined`.
-Numeric `0` and empty strings render once. Use `{{.}}` to output the scalar itself.
+A scalar (non-collection) value renders the block exactly once, with the value pushed
+onto the stack so `{{.}}` outputs it. Only `false`, `null`, and `undefined` suppress a
+scalar section; importantly, `0` and `""` render once.
 
 ```html
 {{#status}}Status: {{.}}{{/status}}
-```
-
-```html
 {{#count}}Count: {{.}}{{/count}}
 ```
 
+With `{ status: 'active', count: 0 }` this outputs `Status: active` and `Count: 0`.
+
 ### Inverted Sections
 
-An inverted section renders when a value is `false`, `null`, `undefined`, an empty
-array, an empty Map, an empty Set, or an empty plain object.
+An inverted section, `{{^name}}`, renders when its value is empty or falsey: `false`,
+`null`, `undefined`, an empty array, an empty Map, an empty Set, or an empty plain
+object. It is the complement of a regular data section.
 
 ```html
 {{#articles}}
@@ -183,78 +243,154 @@ array, an empty Map, an empty Set, or an empty plain object.
 {{/articles}}
 ```
 
-Kixx data sections do not expose indexes, keys, or `{{else}}`. Map keys and object
-property names are not available inside data sections. Use `{{^name}}` for inverse data
-sections, and use the `#each` helper when you need indexes, keys, or block params.
+Data sections do not support `{{else}}`. Pair `{{#name}}` with `{{^name}}` instead, or
+reach for the [`if`](#if-helper) / [`each`](#each-helper) helpers when you need an inline
+else branch, indexes, or block params.
+
+## Falsiness and Empty Values
+
+Data sections and the conditional helpers each decide independently whether a value is
+"present." The rules mostly agree, but they differ for `0`, `""`, and empty plain
+objects, so this table is the authoritative reference. "main" means the primary block
+renders; "else" means the inverse branch renders (`{{^name}}` for a data section,
+`{{else}}` for a helper).
+
+| Value                  | `{{#x}}` section   | `{{#if x}}` | `{{#unless x}}` | `{{#with x}}` |
+|------------------------|--------------------|-------------|-----------------|---------------|
+| `false`                | else               | else        | main            | else          |
+| `null`                 | else               | else        | main            | else          |
+| `undefined`            | else               | else        | main            | else          |
+| `0`                    | main (scalar)      | else        | main            | else          |
+| `""` (empty string)    | main (scalar)      | else        | main            | else          |
+| non-empty string       | main (scalar)      | main        | else            | main          |
+| non-zero number        | main (scalar)      | main        | else            | main          |
+| `[]` empty array       | else               | else        | main            | else          |
+| non-empty array        | main (iterates)    | main        | else            | main          |
+| empty Map / Set        | else               | else        | main            | else          |
+| non-empty Map / Set    | main (iterates)    | main        | else            | main          |
+| `{}` empty object      | else               | **main**    | main            | **main**      |
+| non-empty object       | main (iterates)    | main        | else            | main          |
+
+Note the two surprises on the empty-object row: `#if {}` and `#with {}` treat an empty
+object as a present value (main block), while data sections and `#unless` treat it as
+empty. For `#unless`, "main" is its body, which renders precisely when the value is
+falsey.
+
+## Name Resolution
+
+Name resolution follows Mustache semantics over a context stack. For a dotted path, the
+engine walks **up** the stack to find the first frame whose value has the *first*
+segment, then resolves the remaining segments directly on that value. A broken chain
+returns `undefined`; it does not restart the search higher up the stack.
+
+```javascript
+const context = {
+    site: 'Blog',
+    post: { title: 'Hello' },
+};
+```
+
+```html
+{{#with post}}{{ title }} on {{ site }}{{/with}}
+```
+
+Inside the block, `title` resolves on the pushed `post` value and `site` is found by
+walking up to the root frame. Output: `Hello on Blog`.
+
+(This uses [`#with`](#with-helper) rather than a `{{#post}}` data section on purpose: a
+plain-object data section *iterates its property values* instead of pushing the object
+itself — see [Sections](#sections).)
 
 ## Delimiters
 
-Templates can change delimiters with Mustache set-delimiter tags:
+A set-delimiter tag changes the active delimiters from that point forward in the source:
 
 ```html
 {{=<% %>=}}
 <h1><% title %></h1>
 ```
 
-Delimiter changes apply to the current template source from that point forward. Partials
-are parsed separately, so delimiter changes in a parent template do not affect how a
-partial source is parsed.
+Delimiter changes are scoped to the template source in which they appear. Partials are
+parsed independently, so a parent's delimiter change does not affect a partial.
 
-## Built-in Helpers
+## Whitespace Control
 
-Helpers are Kixx extensions. Data sections should be preferred for ordinary Mustache
-iteration and conditionals; helpers are for block params, indexes, object/Map/Set
-iteration, equality checks, formatting, and other custom behavior.
-
-| Helper | Type | Description |
-|--------|------|-------------|
-| `#each` | Block | Iterate over arrays, objects, Maps, and Sets |
-| `#if` | Block | Conditional rendering based on truthiness |
-| `#unless` | Block | Render when a value is falsey |
-| `#ifEqual` | Block | Equality comparison using `==` |
-| `#with` | Block | Change the context scope |
-| `unescape` | Inline | Prevent automatic HTML escaping |
-| `plusOne` | Inline | Add 1 to a number (useful for array indexes) |
-
-`{{else}}` splits helper blocks into primary and inverse branches. Whitespace around
-`{{else}}` is preserved, so place it intentionally when exact text output matters.
-
-### each Helper
-
-Iterate over arrays, Maps, Sets, or plain objects:
+Kixx follows the Mustache standalone-tag rule: when a section, inverted section, comment,
+partial, or set-delimiter tag is the only non-whitespace content on its line, that entire
+line — including its trailing newline and leading indentation — is removed from the
+output.
 
 ```html
 <ul>
-    {{#each images as |image| }}
-    <li>
-        <img src="{{ image.src }}" alt="{{ image.alt }}" />
-    </li>
-    {{/each}}
+{{#items}}
+    <li>{{ . }}</li>
+{{/items}}
 </ul>
 ```
 
-Remember to include the closing `{{/each}}` tag. The first block parameter is required.
-Block parameter names are separated by whitespace; do not use commas.
+Because the `{{#items}}` and `{{/items}}` lines are standalone, they leave no blank lines
+behind; only the `<li>` lines remain.
 
-The second block parameter references different things based on the iterable type:
+Two things are **not** standalone-stripped, by design:
+
+- **Interpolation tags** (`{{ x }}`, `{{{ x }}}`). They render in place, so surrounding
+  whitespace is preserved.
+- **Helper `{{else}}` tags.** Whitespace around `{{else}}` is kept, so place it
+  deliberately when exact output matters. Put the `{{else}}` immediately against
+  surrounding tags (`...{{/each}}{{else}}{{#each...`) to avoid emitting stray newlines.
+
+## Built-in Helpers
+
+Helpers are Kixx extensions. Prefer plain data sections for ordinary iteration and
+conditionals; reach for helpers when you need block params, indexes, keys, equality
+checks, scope changes, formatting, or other custom behavior.
+
+| Helper       | Type   | Description                                       |
+|--------------|--------|---------------------------------------------------|
+| `#each`      | Block  | Iterate arrays, objects, Maps, and Sets           |
+| `#if`        | Block  | Conditional rendering based on truthiness         |
+| `#unless`    | Block  | Render when a value is falsey                      |
+| `#ifEqual`   | Block  | Loose (`==`) equality comparison                  |
+| `#with`      | Block  | Change the context scope                          |
+| `unescape`   | Inline | Emit a value without HTML escaping                |
+| `plusOne`    | Inline | Add 1 to a number (useful for array indexes)      |
+
+`{{else}}` splits any block helper into a primary branch and an inverse branch.
+
+### each Helper
+
+`each` iterates arrays, Maps, Sets, or plain objects, with explicit block parameters.
+
+```html
+<ul>
+{{#each images as |image| }}
+    <li><img src="{{ image.src }}" alt="{{ image.alt }}" /></li>
+{{/each}}
+</ul>
+```
+
+The first block parameter is **required**. Block parameter names are separated by
+whitespace — do not use commas. Always include the closing `{{/each}}` tag.
+
+The optional second block parameter depends on the iterable type:
 
 | Iterable | Second parameter |
 |----------|------------------|
-| Array | index |
-| Map | key |
-| Set | (none) |
-| Object | property name |
+| Array    | index            |
+| Map      | key              |
+| Set      | (none)           |
+| Object   | property name    |
 
 ```html
 {{#each weatherStations as |stationCode index| }}
 <li>
-    <span>{{plusOne index }}.</span>
+    <span>{{ plusOne index }}.</span>
     <a href="/stations/{{ stationCode }}">{{ stationCode }}</a>
 </li>
 {{/each}}
 ```
 
-For Maps and plain objects, the second block parameter is the key or property name:
+For Maps and plain objects the second parameter is the key or property name:
 
 ```html
 {{#each usersById as |user id| }}
@@ -262,21 +398,21 @@ For Maps and plain objects, the second block parameter is the key or property na
 {{/each}}
 ```
 
-Use `else` to handle empty collections, missing values, `null`, and non-object
-values. The `else` branch renders for empty arrays, empty Maps, empty Sets, and empty
-plain objects:
+Use `{{else}}` for the empty case. The inverse branch renders for an empty array, empty
+Map, empty Set, empty plain object, `null`, `undefined`, or any non-object value:
 
 ```html
 {{#each images as |image| }}
     <div><img src="{{ image.src }}" /></div>
 {{else}}
-    <p>No images to display</p>
+    <p>No images to display.</p>
 {{/each}}
 ```
 
 ### if Helper
 
-Conditional rendering based on truthiness:
+Renders the primary block when the value is truthy (see
+[Falsiness and Empty Values](#falsiness-and-empty-values)):
 
 ```html
 {{#if user.isLoggedIn}}
@@ -286,15 +422,13 @@ Conditional rendering based on truthiness:
 {{/if}}
 ```
 
-**Truthy values:** non-empty strings, non-zero numbers, `true`, plain objects,
-including empty plain objects, and non-empty arrays/Maps/Sets
-
-**Falsey values:** `false`, `0`, `""`, `null`, `undefined`, empty arrays `[]`, and empty
-Maps/Sets
+Truthy: non-empty strings, non-zero numbers, `true`, plain objects (including empty
+objects), and non-empty arrays, Maps, and Sets. Falsey: `false`, `0`, `""`, `null`,
+`undefined`, and empty arrays, Maps, and Sets.
 
 ### unless Helper
 
-Renders when the value is falsey:
+The mirror of `if`: renders its primary block when the value is falsey.
 
 ```html
 {{#unless articles}}
@@ -304,12 +438,13 @@ Renders when the value is falsey:
 {{/unless}}
 ```
 
-`#unless` renders its primary block for `false`, `0`, `""`, `null`, `undefined`, empty
-arrays, empty Maps, empty Sets, and empty plain objects.
+`#unless` renders the primary block for `false`, `0`, `""`, `null`, `undefined`, and
+empty arrays, Maps, Sets, and plain objects. Note that an empty plain object is falsey
+here even though it is truthy for `#if`.
 
 ### ifEqual Helper
 
-Compares two values using `==` equality:
+Compares two values with loose (`==`) equality, so `1` and `"1"` are considered equal:
 
 ```html
 {{#ifEqual user.role "admin"}}
@@ -319,7 +454,8 @@ Compares two values using `==` equality:
 {{/ifEqual}}
 ```
 
-Chain for switch-like behavior:
+Chain `ifEqual` for switch-like branching. Keep the `{{else}}` and nested open tags
+adjacent so the [whitespace rules](#whitespace-control) do not introduce stray newlines:
 
 ```html
 {{#ifEqual user.role "admin"}}
@@ -333,18 +469,13 @@ Chain for switch-like behavior:
 
 ### with Helper
 
-Changes the context scope for a block. Useful for reducing repetition when accessing
-nested properties:
+Pushes a value onto the context stack to shorten repeated nested access:
 
 ```javascript
 const context = {
     site: { name: 'My Blog' },
     user: {
-        profile: {
-            name: 'Jane Doe',
-            bio: 'Software developer',
-            email: 'jane@example.com',
-        },
+        profile: { name: 'Jane Doe', bio: 'Software developer', email: 'jane@example.com' },
     },
 };
 ```
@@ -360,33 +491,38 @@ const context = {
 {{/with}}
 ```
 
-The value is pushed onto the context stack, so its properties are resolved first and
-parent context properties like `site.name` remain accessible.
+Inside the block, the profile's properties resolve first, and parent values like
+`site.name` remain reachable. The `{{else}}` branch renders when the value is falsey, an
+empty array, or an empty Map or Set. An empty plain object is treated as a usable context
+and renders the primary block.
 
-The else block renders when the value is:
+### unescape Helper
 
-- Falsey (`null`, `undefined`, `false`, `0`, `""`)
-- An empty array `[]`
-- An empty Map or Set
+Emits a value without HTML escaping. It is equivalent to `{{{ value }}}` / `{{& value }}`
+but reads as a helper call. Only use it for trusted content.
 
-An empty plain object is treated as a context value and renders the primary block.
+```html
+<div>{{ unescape markdownContent }}</div>
+```
 
 ### plusOne Helper
 
-Adds 1 to a number. Useful for displaying 1-based indexes:
+Adds 1 to a number and returns the result as a string — handy for 1-based display of
+0-based array indexes. Numeric strings are accepted; non-numeric values return an empty
+string.
 
 ```html
 {{#each images as |image index| }}
 <div>
-    <span>{{plusOne index }}.</span>
+    <span>{{ plusOne index }}.</span>
     <img src="{{ image.src }}" alt="{{ image.alt }}" />
 </div>
 {{/each}}
 ```
 
-### Multi-line Helpers
+### Multi-line Helper Calls
 
-All helpers can span multiple lines:
+Any helper call may span multiple lines, which keeps long argument lists readable:
 
 ```html
 <p>Game start: {{formatDate game.startTime
@@ -396,63 +532,74 @@ All helpers can span multiple lines:
 }}</p>
 ```
 
-Helper arguments can be paths, quoted string literals, integer literals, boolean
-literals, `null`, or `undefined`. Named arguments are collected into the `options`
-object passed to the helper.
+Helper arguments can be paths, quoted string literals, integer literals, the boolean
+literals `true` / `false`, `null`, or `undefined`. Positional arguments are passed in
+order; named arguments such as `format="long"` are collected into the helper's `options`
+object.
 
 ## HTML Escaping
 
-Escaped interpolation tags, like `{{ value }}`, escape the core Mustache HTML set:
-`&`, `<`, `>`, and `"`.
+Escaped interpolation (`{{ value }}`) escapes the core Mustache set: `&`, `<`, `>`, and
+`"`.
 
 ```html
 {{#comments}}
-<div>{{.}}</div>
+<div>{{ . }}</div>
 {{/comments}}
 ```
 
-If a comment contains `<script src="http://evil.com/hack.js" />`, the output is:
+A comment of `<script src="http://evil.com/hack.js" />` renders safely as:
 
-```html
+```text
 <div>&lt;script src=&quot;http://evil.com/hack.js&quot; /&gt;</div>
 ```
 
-Characters outside the Mustache set, including `'`, `` ` ``, and `=`, are not escaped by
-the default escape function. If your application needs a stricter policy, pass a custom
-`escape` function to `createRenderFunction()`.
+Characters outside that set — including `'`, `` ` ``, and `=` — are **not** escaped by
+the default policy. If you need something stricter, pass a custom `escape` function to
+`createRenderFunction()`:
 
-### Raw Trusted HTML
+```javascript
+const render = createRenderFunction(
+    { escape: (value) => String(value).replace(/'/g, '&#39;') },
+    helpers,
+    partials,
+    tree,
+);
+```
 
-For trusted HTML content, such as markdown converted to HTML, use triple mustache,
-ampersand tags, or the `unescape` helper:
+### Raw, Trusted HTML
+
+For pre-sanitized HTML (for example, Markdown already converted to HTML), use any of the
+three unescaped forms:
 
 ```html
 <div>{{{ markdownContent }}}</div>
 <div>{{& markdownContent }}</div>
-<div>{{unescape markdownContent }}</div>
+<div>{{ unescape markdownContent }}</div>
 ```
 
-Only use raw output with content you trust. Never use it with untrusted user input.
+Never pass untrusted user input through raw output.
 
 ### Escaping in Custom Helpers
 
-Helper output is not automatically escaped, even when the helper is called with double
-braces. Return escaped strings yourself when helper output includes untrusted content:
+Helper return values are **not** escaped automatically, even when the helper is called
+with double mustaches. If a helper emits untrusted content, escape it yourself:
 
 ```javascript
 import { escapeHTMLChars } from 'kixx-templating';
 
-function myHelper(context, options, userInput) {
-    return escapeHTMLChars(userInput);
+function shout(context, options, userInput) {
+    return escapeHTMLChars(userInput) + '!';
 }
 ```
 
-Helpers should return strings for predictable rendering. `null` and `undefined` helper
-returns are not converted to empty strings automatically.
+Helpers should always return a string. A `null` or `undefined` return is not coerced to
+an empty string for you.
 
 ## Partials
 
-Partials are reusable template fragments. Include them with `{{> partial-name }}`:
+Partials are reusable, separately-registered template fragments. Include one with
+`{{> name }}`:
 
 ```html
 <!DOCTYPE html>
@@ -466,7 +613,7 @@ Partials are reusable template fragments. Include them with `{{> partial-name }}
 </html>
 ```
 
-Partials inherit the current context:
+A partial inherits the current context, including the surrounding stack:
 
 ```html
 {{#players}}
@@ -474,8 +621,8 @@ Partials inherit the current context:
 {{/players}}
 ```
 
-Inside `cards/game-player.html`, you can access both the current player fields and
-parent context fields:
+Inside `cards/game-player.html`, both the current player's fields and the parent context
+are reachable:
 
 ```html
 <tr>
@@ -485,20 +632,20 @@ parent context fields:
 </tr>
 ```
 
-If a partial name is not registered, it renders as an empty string.
+Additional notes:
 
-Partial names are literal. Dynamic partial names such as `{{>*name}}` are part of an
-optional Mustache extension and are not supported.
+- A partial name that is not registered renders as an empty string.
+- Partial names are literal. The dynamic-name extension (`{{>*name}}`) is not supported.
+- A standalone partial tag propagates its indentation to every line of the partial's
+  output:
 
-Standalone partials preserve indentation:
+  ```html
+  <ul>
+    {{> row }}
+  </ul>
+  ```
 
-```html
-<ul>
-  {{> row }}
-</ul>
-```
-
-Each rendered line from `row` receives the two-space indentation before the partial tag.
+  Each rendered line of `row` receives the two-space indent that preceded the tag.
 
 ## Custom Helpers
 
@@ -510,14 +657,14 @@ function helperName(context, options, ...positionals) {
 }
 ```
 
-| Parameter | Description |
-|-----------|-------------|
-| `context` | The current frame value |
-| `options` | Named arguments passed to the helper |
-| `...positionals` | Positional arguments |
+| Parameter        | Description                                              |
+|------------------|---------------------------------------------------------|
+| `context`        | The current frame value (the value `this` block is in)  |
+| `options`        | Object of named arguments (`format="long"` → `options.format`) |
+| `...positionals` | Positional arguments, already resolved against context  |
 
-Positional path arguments are resolved before the helper is called. Named arguments such
-as `format="long"` are available on `options`.
+Positional path arguments are looked up before the helper runs; a missing path resolves
+to `undefined`.
 
 ### Inline Helper Example
 
@@ -529,21 +676,19 @@ function formatDate(context, options, dateString) {
 }
 ```
 
-Usage:
-
 ```html
 <p>Published: {{ formatDate article.date format="long" }}</p>
 ```
 
 ### Block Helper Example
 
-Block helpers use `this` context for rendering:
+A block helper renders its body through methods on `this`:
 
-| Property/Method | Description |
-|-----------------|-------------|
-| `this.blockParams` | Array of block parameter names |
-| `this.renderPrimary(newContext)` | Render the primary block |
-| `this.renderInverse(newContext)` | Render the else block |
+| Property / Method                | Description                                  |
+|----------------------------------|----------------------------------------------|
+| `this.blockParams`               | Array of the `as |...|` parameter names      |
+| `this.renderPrimary(newContext)` | Render the primary block                     |
+| `this.renderInverse(newContext)` | Render the `{{else}}` block                  |
 
 ```javascript
 function repeat(context, options, count) {
@@ -555,18 +700,17 @@ function repeat(context, options, count) {
 }
 ```
 
-Usage:
-
 ```html
 {{#repeat 3}}
     <span>Item {{ index }}</span>
 {{/repeat}}
 ```
 
-The object passed to `renderPrimary()` is pushed onto the context stack. Parent context
-values remain visible without copying them into the new object.
+The object passed to `renderPrimary()` is pushed onto the context stack, so parent
+context stays visible without copying it. Calling `renderPrimary()` with no argument
+re-renders against the current frame unchanged.
 
-Block helpers can also use the names declared with `as |...|`:
+Block helpers can read the names declared with `as |...|`:
 
 ```javascript
 function entries(context, options, value) {
@@ -584,14 +728,28 @@ function entries(context, options, value) {
 }
 ```
 
-Usage:
-
 ```html
 {{#entries settings as |value key| }}
     <dt>{{ key }}</dt>
     <dd>{{ value }}</dd>
 {{/entries}}
 ```
+
+## Errors
+
+Malformed templates throw a `LineSyntaxError` during tokenization or syntax-tree
+construction, with the offending `filename`, `lineNumber`, and `startPosition` attached
+for diagnostics. Errors are raised for:
+
+- An unclosed mustache (`{{ ...` with no `}}`) or unclosed comment.
+- A block that is opened but never closed.
+- A close tag with no matching open block, or whose name does not match the open block
+  (`{{#if x}}...{{/each}}`).
+- Unclosed string literals, brackets, or block params inside an expression.
+- A key/value argument with no value after `=`.
+
+A helper that throws is wrapped in a `LineSyntaxError` whose `cause` is the original
+error, so failures point back to the tag that triggered them.
 
 ## API Reference
 
@@ -609,45 +767,46 @@ import {
 
 ### tokenize(options, filename, utf8)
 
-Tokenizes template source into an array of tokens. Tokenization handles dynamic
-delimiter changes and standalone whitespace metadata.
+Tokenizes template source into an array of tokens. Handles dynamic delimiter changes and
+records standalone-whitespace metadata.
 
-- `options` - Pass `null` (reserved for future use)
-- `filename` - Template name for error reporting
-- `utf8` - Template source string
+- `options` — pass `null` (reserved for future use)
+- `filename` — template name, used in error messages
+- `utf8` — the template source string
 
 ### buildSyntaxTree(options, tokens)
 
 Builds an AST from tokens.
 
-- `options` - Pass `null`
-- `tokens` - Array from `tokenize()`
+- `options` — pass `null`
+- `tokens` — the array returned by `tokenize()`
 
 ### createRenderFunction(options, helpers, partials, tree)
 
-Creates a render function from an AST.
+Compiles an AST into a render function.
 
-- `options` - Pass `null`, or an object with `escape` to override escaped interpolation
-  output
-- `helpers` - Map of helper functions
-- `partials` - Map of compiled partial render functions
-- `tree` - AST from `buildSyntaxTree()`
+- `options` — pass `null`, or `{ escape }` to override the escaped-interpolation policy
+- `helpers` — `Map` of helper functions
+- `partials` — `Map` of compiled partial render functions
+- `tree` — the AST returned by `buildSyntaxTree()`
 
-Returns a render function: `(context) => string`. Partials are looked up at render time,
-so a template can reference partials registered after the template was compiled.
+Returns a render function with the signature `(context) => string`. Partials are resolved
+at render time, so a template may reference partials registered after it was compiled.
 
 ### helpers
 
-Map containing all built-in helper functions.
+A `Map` of all built-in helper functions. Copy it (`new Map(helpers)`) before adding your
+own so the built-ins stay intact.
 
 ### escapeHTMLChars(str)
 
-Escapes the Mustache HTML special characters: `& < > "`
+Escapes the Mustache HTML set (`&`, `<`, `>`, `"`). `null` and `undefined` become the
+empty string; other non-strings are coerced with `String()`.
 
 ## Putting it All Together
 
-Using the primitives provided by Kixx Templating, you can create a small template engine
-and then add application-specific behavior such as template caching.
+These primitives are enough to build a small template engine with application-specific
+behavior such as helper registration, partial registration, and caching.
 
 ```javascript
 import {
@@ -683,7 +842,7 @@ class TemplateEngine {
 ```javascript
 const engine = new TemplateEngine();
 
-engine.registerPartial('track-row', '<li>{{ title }} - {{ duration }}</li>');
+engine.registerPartial('track-row', '<li>{{ title }} — {{ duration }}</li>');
 
 const render = engine.compileTemplate('track-list', `
 <h1>{{ album }}</h1>
