@@ -142,6 +142,20 @@ export default [
         assertEqual('[ .yes.  .yes. ]\n[ .yes.  .yes. ]\n[ .{{value}}.  .yes. ]\n', render({ value: 'yes' }));
     },
 
+    function standaloneSectionLinesAreRemoved() {
+        const render = compile('t', 'A\n{{#x}}\nB\n{{/x}}\nC\n');
+        assertEqual('A\nB\nC\n', render({ x: true }));
+    },
+
+    function standalonePartialIndentationAppliesToSourceLines() {
+        const partials = new Map();
+
+        partials.set('row', compile('row', '|\n{{{value}}}\n|\n', new Map(), partials));
+
+        const render = compile('t', '>\n  {{> row}}\n<\n', new Map(), partials);
+        assertEqual('>\n  |\n  a\nb\n  |\n<\n', render({ value: 'a\nb' }));
+    },
+
     function pluggableEscapeHook() {
         const escape = (value) => String(value).replace(/'/g, '&#x27;');
         const tokens = tokenize(null, 't', '{{x}}');

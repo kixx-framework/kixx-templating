@@ -150,8 +150,7 @@
       "outcome": "pass"
     },
     "sections:Deeply Nested Contexts": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:List": {
       "outcome": "pass"
@@ -160,8 +159,7 @@
       "outcome": "pass"
     },
     "sections:Doubled": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:Nested (Truthy)": {
       "outcome": "pass"
@@ -215,24 +213,19 @@
       "outcome": "pass"
     },
     "sections:Standalone Lines": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:Indented Standalone Lines": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:Standalone Line Endings": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:Standalone Without Previous Line": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:Standalone Without Newline": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "sections:Padding": {
       "outcome": "pass"
@@ -256,8 +249,7 @@
       "outcome": "pass"
     },
     "inverted:Doubled": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "inverted:Nested (Falsey)": {
       "outcome": "pass"
@@ -287,24 +279,19 @@
       "outcome": "pass"
     },
     "inverted:Standalone Lines": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "inverted:Standalone Indented Lines": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "inverted:Standalone Line Endings": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "inverted:Standalone Without Previous Line": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "inverted:Standalone Without Newline": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "inverted:Padding": {
       "outcome": "pass"
@@ -316,32 +303,25 @@
       "outcome": "pass"
     },
     "comments:Standalone": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Indented Standalone": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Standalone Line Endings": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Standalone Without Previous Line": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Standalone Without Newline": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Multiline Standalone": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Indented Multiline Standalone": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "comments:Indented Inline": {
       "outcome": "pass"
@@ -374,20 +354,16 @@
       "outcome": "pass"
     },
     "partials:Standalone Line Endings": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "partials:Standalone Without Previous Line": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "partials:Standalone Without Newline": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "partials:Standalone Indentation": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "partials:Padding Whitespace": {
       "outcome": "pass"
@@ -399,16 +375,13 @@
       "outcome": "pass"
     },
     "delimiters:Sections": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Inverted Sections": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Partial Inheritence": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Post-Partial Behavior": {
       "outcome": "pass"
@@ -420,24 +393,19 @@
       "outcome": "pass"
     },
     "delimiters:Standalone Tag": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Indented Standalone Tag": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Standalone Line Endings": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Standalone Without Previous Line": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Standalone Without Newline": {
-      "outcome": "fail",
-      "cause": "standalone-whitespace"
+      "outcome": "pass"
     },
     "delimiters:Pair with Padding": {
       "outcome": "pass"
