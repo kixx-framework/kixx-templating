@@ -4,6 +4,8 @@ import buildSyntaxTree from '../lib/build-syntax-tree.js';
 import createRenderFunction from '../lib/create-render-function.js';
 import builtinHelpers from '../lib/helpers/mod.js';
 
+/* eslint-disable no-invalid-this */
+
 
 function compile(name, source, helpers = new Map(), partials = new Map()) {
     const tokens = tokenize(null, name, source);
@@ -41,11 +43,48 @@ export default [
         assertEqual('0:a;1:b;', render({ items: [ 'a', 'b' ] }));
     },
 
+    function eachHelperCanReadParentFrames() {
+        const helpers = new Map([ [ 'each', builtinHelpers.get('each') ] ]);
+        const render = compile('t', '{{#each items as |item|}}{{root}}:{{item}};{{/each}}', helpers);
+        assertEqual('R:a;R:b;', render({ root: 'R', items: [ 'a', 'b' ] }));
+    },
+
     function ifHelperWithElse() {
         const helpers = new Map([ [ 'if', builtinHelpers.get('if') ] ]);
         const render = compile('t', '{{#if x}}yes{{else}}no{{/if}}', helpers);
         assertEqual('yes', render({ x: true }));
         assertEqual('no', render({ x: false }));
+    },
+
+    function helperCanRenderTheCurrentFrame() {
+        const helpers = new Map([
+            [ 'same', function same_helper() {
+                return this.renderPrimary();
+            } ],
+        ]);
+        const render = compile('t', '{{#value}}{{#same}}{{.}}{{/same}}{{/value}}', helpers);
+        assertEqual('x', render({ value: 'x' }));
+    },
+
+    function withHelperUsesFrameStackForParentScope() {
+        const helpers = new Map([ [ 'with', builtinHelpers.get('with') ] ]);
+        const render = compile('t', '{{#with child}}{{root}}/{{name}}{{/with}}', helpers);
+        assertEqual('R/C', render({ root: 'R', child: { name: 'C' } }));
+    },
+
+    function nestedHelpersRestoreTheCurrentFrame() {
+        const helpers = new Map([
+            [ 'wrap', function wrap_helper(_ctx, _opts, name) {
+                return this.renderPrimary({ name }) + this.renderPrimary({ name: `${ name }2` });
+            } ],
+        ]);
+        const render = compile(
+            't',
+            '{{#wrap "A"}}{{name}}[{{#wrap "B"}}{{name}}{{/wrap}}]{{name}};{{/wrap}}',
+            helpers,
+        );
+
+        assertEqual('A[BB2]A;A2[BB2]A2;', render({}));
     },
 
     function inlineHelperReceivesArgsAndHash() {

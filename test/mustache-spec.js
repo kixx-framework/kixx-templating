@@ -25,7 +25,7 @@ const OPTIONAL_FILES = [
 const SPEC_DIR_URL = new URL('./mustache-spec/', import.meta.url);
 const BASELINE_URL = new URL('./mustache-spec-baseline.json', import.meta.url);
 const REPORT_URL = new URL('../tmp/mustache-conformance-report.md', import.meta.url);
-const ENGINE_LABEL = 'current Kixx (through Phase 5 standalone whitespace semantics)';
+const ENGINE_LABEL = 'current Kixx (through Phase 6 helper extension hardening)';
 
 
 // Render a single spec test through the CURRENT Kixx pipeline. No helpers are
