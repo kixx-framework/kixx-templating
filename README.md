@@ -44,9 +44,10 @@ steps:
 2. **Build Syntax Tree** (`lib/build-syntax-tree.js`) - Parses tokens into an AST for
    content, comments, interpolations, sections, helpers, partials, delimiter changes,
    and raw output tags.
-3. **Create Render Function** (`lib/create-render-function.js`) - Compiles the AST into
-   pre-bound render closures. Rendering uses a zero-copy context stack for Mustache
-   name resolution instead of copying context objects for nested scopes.
+3. **Create Render Function** (`lib/create-render-function.js`) -
+   `createRenderFunction(options, helpers, tree)` compiles the AST into pre-bound render
+   closures. The resulting `render(context, partials)` receives its required partial
+   lookup per invocation and uses a zero-copy context stack for Mustache name resolution.
 
 Development
 -----------

@@ -51,16 +51,16 @@ function runSpecTest(test) {
         for (const name of Object.keys(test.partials)) {
             const tokens = tokenize(null, name, test.partials[name]);
             const tree = buildSyntaxTree(null, tokens);
-            // Kixx resolves partials lazily at render time, so forward/recursive
-            // references between partials resolve against this shared Map.
-            partials.set(name, createRenderFunction(null, helpers, partials, tree));
+            // Kixx resolves partials from the lookup supplied to the root render, so
+            // forward and recursive references share this invocation's Map.
+            partials.set(name, createRenderFunction(null, helpers, tree));
         }
     }
 
     const tokens = tokenize(null, test.name, test.template);
     const tree = buildSyntaxTree(null, tokens);
-    const render = createRenderFunction(null, helpers, partials, tree);
-    return render(data);
+    const render = createRenderFunction(null, helpers, tree);
+    return render(data, partials);
 }
 
 // Optional lambda fixtures encode function-valued data as { __tag__: "code",

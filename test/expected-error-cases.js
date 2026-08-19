@@ -2,6 +2,9 @@ import { AssertionError, assertEqual } from '../vendor/kixx-assert/mod.js';
 import tokenize from '../lib/tokenize.js';
 import buildSyntaxTree from '../lib/build-syntax-tree.js';
 import createRenderFunction from '../lib/create-render-function.js';
+import LineSyntaxError from '../lib/line-syntax-error.js';
+
+/* eslint-disable no-invalid-this */
 
 
 export default [
@@ -318,14 +321,58 @@ export default [
             assertEqual(14, error.startPosition);
         });
     },
+
+    function renderRequiresPartialsLookup() {
+        const render = compileTemplate('required-partials', 'plain text');
+
+        for (const partials of [ undefined, null, {}, { get() {} }, { has() {} } ]) {
+            assertThrows(() => {
+                render({}, partials);
+            }, (error) => {
+                assertEqual(TypeError, error.constructor);
+                assertEqual('Expected partials to provide has() and get() methods', error.message);
+            });
+        }
+    },
+
+    function resolvedPartialMustBeAFunction() {
+        const render = compileTemplate('invalid-partial', '{{> value}}');
+        const partials = new Map([ [ 'value', 'not a function' ] ]);
+
+        assertThrows(() => {
+            render({}, partials);
+        }, (error) => {
+            assertEqual(TypeError, error.constructor);
+            assertEqual('Expected partial "value" to be a function', error.message);
+        });
+    },
+
+    function invalidPartialInHelperBlockIsWrapped() {
+        const helpers = new Map([ [ 'show', function show_helper() {
+            return this.renderPrimary();
+        } ] ]);
+        const render = compileTemplate('wrapped-partial', '{{#show}}{{> value}}{{/show}}', helpers);
+        const partials = new Map([ [ 'value', false ] ]);
+
+        assertThrows(() => {
+            render({}, partials);
+        }, (error) => {
+            assertEqual(LineSyntaxError, error.constructor);
+            assertEqual(TypeError, error.cause.constructor);
+            assertEqual('Expected partial "value" to be a function', error.cause.message);
+        });
+    },
 ];
 
 
 function createAndRenderTemplate(name, source, context, helpers = new Map(), partials = new Map()) {
+    return compileTemplate(name, source, helpers)(context, partials);
+}
+
+function compileTemplate(name, source, helpers = new Map()) {
     const tokens = tokenize(null, name, source);
     const tree = buildSyntaxTree(null, tokens);
-    const render = createRenderFunction(null, helpers, partials, tree);
-    return render(context);
+    return createRenderFunction(null, helpers, tree);
 }
 
 function assertThrows(fn, check) {

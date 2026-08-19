@@ -93,13 +93,13 @@ Kixx Templating is a mustache-style templating engine with a three-phase compila
 
 1. **Tokenize** (`lib/tokenize.js`) - Splits template source into tokens based on `{{` `}}` delimiters and `{{!-- --}}` comments
 2. **Build Syntax Tree** (`lib/build-syntax-tree.js`) - Parses tokens into an AST with node types: `CONTENT`, `COMMENT`, `PATH_EXPRESSION`, `HELPER_EXPRESSION`, `BLOCK_OPEN`, `BLOCK_CLOSE`, `PARTIAL`, `ELSE`
-3. **Create Render Function** (`lib/create-render-function.js`) - Transforms AST into an executable render function that accepts a context object
+3. **Create Render Function** (`lib/create-render-function.js`) - Transforms AST into an executable render function that accepts a context object and required partial lookup
 
 ### Key Exports (`mod.js`)
 
 - `tokenize(options, filename, utf8)` - Phase 1
 - `buildSyntaxTree(options, tokens)` - Phase 2
-- `createRenderFunction(options, helpers, partials, tokens)` - Phase 3
+- `createRenderFunction(options, helpers, tree)` - Phase 3; returns `render(context, partials)`
 - `helpers` - Map of built-in helper functions
 - `escapeHTMLChars(str)` - HTML entity escaping utility
 
@@ -215,4 +215,3 @@ class ClassWithPrivate {
     }
 }
 ````
-
