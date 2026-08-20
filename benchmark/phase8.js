@@ -140,7 +140,7 @@ function createCurrentEngineBenchmarks(items) {
     const partials = new Map();
     partials.set(
         'row',
-        compileTemplate('row', '{{site}}/{{name}}/{{meta.score}}\n', new Map(), partials),
+        compileTemplate('row', '{{site}}/{{name}}/{{meta.score}}\n', new Map()),
     );
 
     return [
@@ -181,21 +181,22 @@ function createCurrentEngineBenchmarks(items) {
 }
 
 function currentEngineBenchmark(name, source, data, helpers, partials) {
-    const render = compileTemplate(name, source, helpers || new Map(), partials || new Map());
+    const partialLookup = partials || new Map();
+    const render = compileTemplate(name, source, helpers || new Map());
 
     return {
         group: 'current-engine',
         name,
         run() {
-            return render(data);
+            return render(data, partialLookup);
         },
     };
 }
 
-function compileTemplate(name, source, helpers, partials) {
+function compileTemplate(name, source, helpers) {
     const tokens = tokenize(null, name, source);
     const tree = buildSyntaxTree(null, tokens);
-    return createRenderFunction(null, helpers, partials, tree);
+    return createRenderFunction(null, helpers, tree);
 }
 
 function createOutputBufferingBenchmarks(items) {
