@@ -19,6 +19,54 @@ Usage Documentation
 -------------------
 See the [docs/](./docs) folder for comprehensive docs.
 
+Quick Start
+-----------
+
+Compile a template, then render it with a context and a partial lookup:
+
+```javascript
+import {
+    tokenize,
+    buildSyntaxTree,
+    createRenderFunction,
+    helpers,
+} from 'kixx-templating';
+
+function compile(filename, source) {
+    const tokens = tokenize(null, filename, source);
+    const tree = buildSyntaxTree(null, tokens);
+    return createRenderFunction(null, helpers, tree);
+}
+
+const render = compile('greeting', 'Hello, {{ name }}!');
+render({ name: 'Ada' }, new Map()); // "Hello, Ada!"
+```
+
+Sections iterate collections, while built-in helpers provide conditionals and other
+small pieces of template logic:
+
+```javascript
+const render = compile(
+    'team-list',
+    '{{#if show}}{{#members}}{{ name }} {{/members}}{{else}}Hidden{{/if}}',
+);
+
+render({ show: true, members: [ { name: 'Ada' }, { name: 'Linus' } ] }, new Map());
+// "Ada Linus "
+```
+
+Partials are compiled templates supplied by name at render time:
+
+```javascript
+const partials = new Map([
+    [ 'item', compile('item', '<li>{{ name }}</li>') ],
+]);
+const render = compile('list', '<ul>{{#items}}{{> item}}{{/items}}</ul>');
+
+render({ items: [ { name: 'One' }, { name: 'Two' } ] }, partials);
+// "<ul><li>One</li><li>Two</li></ul>"
+```
+
 Mustache Compatibility
 ----------------------
 
